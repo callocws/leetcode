@@ -1,14 +1,9 @@
-package leetcode;
+package leetcode._49;
 
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-
-//49. Group Anagrams
-class _49 {
-
-}
 
 class Solution {
 
