@@ -1,6 +1,7 @@
 package leetcode._15;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -45,8 +46,26 @@ class Solution {
     }
 }
 
+class Solution1 {
+    public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> r = new LinkedList();
+        Set<List<Integer>> s = new HashSet();
 
+        Arrays.sort(nums);
+        for(int i = 0; i < nums.length; i++) {
+            for(int j = i + 1, t = nums.length - 1; j < t;) {
+                int k = nums[j] + nums[t];
+                if(k == 0 - nums[i]) {
+                    s.add(List.of(nums[i], nums[j++], nums[t--]));
+                } else if (k < 0 - nums[i]) {
+                    j++;
+                } else {
+                    t--;
+                }
+            }
+        }
 
-
-
-
+        r.addAll(s);
+        return r;
+    }
+}
