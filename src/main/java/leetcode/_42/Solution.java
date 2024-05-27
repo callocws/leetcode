@@ -24,3 +24,21 @@ class Solution {
         return m;
     }
 }
+
+class Solution1 {
+    public int trap(int[] height) {
+        int m = 0, i = 0, j = height.length - 1, l = height[i], r = height[j];
+        for(;i <= j;) {
+            if(l <= r) {
+                int k = l - height[i];
+                m += k < 0 ? 0 : k;
+                l = Math.max(l, height[i++]);
+            } else {
+                int k = r - height[j];
+                m += k < 0 ? 0 : k;
+                r = Math.max(r, height[j--]);
+            }
+        }
+        return m;
+    }
+}
