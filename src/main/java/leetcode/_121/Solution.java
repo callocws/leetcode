@@ -23,3 +23,14 @@ class Solution {
         return m;
     }
 }
+
+class Solution1 {
+	public int maxProfit(int[] prices) {
+		int m = 0, l = prices[0];
+		for(int i = 1; i < prices.length; i++) {
+			m = Math.max(m, prices[i] - l);
+			l = Math.min(l, prices[i]);
+		}
+		return m;
+	}
+}
