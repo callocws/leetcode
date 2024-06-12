@@ -37,6 +37,7 @@ class LRUCache {
         } else {
             return -1;
         }
+
         t.pre = tail.pre;
         t.next = tail;
         tail.pre.next = t;
