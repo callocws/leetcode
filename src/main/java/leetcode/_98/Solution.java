@@ -30,3 +30,14 @@ class Solution {
         System.out.println(new Solution().isValidBST(root));
     }
 }
+
+class Solution1 {
+
+    public boolean isValidBST(TreeNode root) {
+        return f(root, Long.MIN_VALUE, Long.MAX_VALUE);
+    }
+
+    boolean f(TreeNode p, long min, long max) {
+        return p == null || min < p.val && p.val < max && f(p.left, min, p.val) && f(p.right, p.val, max);
+    }
+}
