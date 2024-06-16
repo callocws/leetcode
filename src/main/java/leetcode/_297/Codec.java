@@ -25,9 +25,8 @@ public class Codec {
   // Decodes your encoded data to tree.
   public TreeNode deserialize(String data) {
     int i = 1;
-    for (; i < data.length() && data.charAt(i) != '#'; i++) {
-      s = data.substring(i + 1);
-    }
+    for (; i < data.length() && data.charAt(i) != '#'; i++) {}
+    s = data.substring(i);
     if (data.charAt(i - 1) == '!') {
       return null;
     }
