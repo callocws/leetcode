@@ -1,5 +1,6 @@
 package leetcode._212;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -78,5 +79,77 @@ class Solution {
         String[] words1 = {"a"};
         System.out.println(new Solution().findWords(B, words1));
 
+    }
+}
+
+
+class Solution1 {
+
+    class Node {
+        HashMap<Character, Node> m = new HashMap();
+
+        Node add(char c) {
+            Node t = m.get(c);
+            if(t == null) {
+                t = new Node();
+            }
+            m.put(c, t);
+            return t;
+        }
+    }
+    Node head = new Node();
+
+    public List<String> findWords(char[][] board, String[] words) {
+        boolean B[][] = new boolean[board.length][];
+        for(int i = 0; i < board.length; i++) {
+            B[i] = new boolean[board[i].length];
+        }
+
+        for(int i = 0; i < board.length; i++) {
+            for(int j = 0; j < board[i].length; j++) {
+                f(head, board, clone1(B), i, j);
+            }
+        }
+
+        LinkedList<String> l = new LinkedList();
+        for(String word : words) {
+            if(f(head, word)) {
+                l.add(word);
+            }
+        }
+        return l;
+    }
+
+    boolean f(Node p, String word) {
+        if (word.equals("")) {
+            return true;
+        }
+
+        Node t = p.m.get(word.charAt(0));
+        if(t == null) {
+            return false;
+        }
+        return f(t, word.substring(1));
+    }
+
+    void f(Node p, char[][] A, boolean[][] B, int i, int j) {
+        if(i < 0 || i >= A.length || j < 0 || j >= A[0].length || B[i][j]) {
+            return;
+        }
+        p = p.add(A[i][j]);
+        B[i][j] = true;
+
+        f(p, A, clone1(B), i + 1, j);
+        f(p, A, clone1(B), i, j + 1);
+        f(p, A, clone1(B), i - 1, j);
+        f(p, A, clone1(B), i, j - 1);
+    }
+
+    public static boolean[][] clone1(boolean[][] original) {
+        boolean[][] clone = new boolean[original.length][];
+        for (int i = 0; i < original.length; i++) {
+            clone[i] = original[i].clone();
+        }
+        return clone;
     }
 }
