@@ -1,6 +1,5 @@
 package leetcode._212;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,7 +12,7 @@ class Solution {
 
         LinkedList<String> l = new LinkedList();
         for(String word : words) {
-            if(search(board, clone1(B), word, calc(word))) {
+            if(search(board, clone1(B), word)) {
                 l.add(word);
             }
         }
@@ -28,18 +27,10 @@ class Solution {
          return clone;
      }
 
-    HashMap<Character, Integer> calc(String s) {
-        HashMap<Character, Integer> m = new HashMap();
-        for(char c : s.toCharArray()) {
-            m.put(c, m.getOrDefault(c, 0) + 1);
-        }
-        return m;
-    }
-
-    boolean search(char[][] A, boolean[][] B, String word, HashMap<Character, Integer> m) {
+    boolean search(char[][] A, boolean[][] B, String word) {
         for(int i = 0; i < A.length; i++) {
             for(int j = 0; j < A[i].length; j++) {
-                if(f(A, clone1(B), i, j, m.clone())) {
+                if(f(A, clone1(B), i, j, word)) {
                     return true;
                 }
             }
@@ -47,26 +38,23 @@ class Solution {
         return false;
     }
 
-    boolean f(char[][] A, boolean[][] B, int i, int j, Object h) {
+    boolean f(char[][] A, boolean[][] B, int i, int j, String word) {
+        if (word.equals("")) {
+            return true;
+        }
+
         if(i < 0 || i >= A.length || j < 0 || j >= A[0].length) {
             return false;
         }
 
-        HashMap<Character, Integer> m = (HashMap<Character, Integer>) h;
-
-        Integer t = m.get(A[i][j]);
-        if(B[i][j] || t == null || t <= 0) {
+        if(B[i][j] || A[i][j] != word.charAt(0)) {
             return false;
         }
         B[i][j] = true;
-        m.put(A[i][j], t - 1);
 
-        int sum = 0;
-        for (Integer value : m.values()) {
-            sum += value;
-        }
+        String s = word.substring(1);
 
-        return sum == 0 || f(A, clone1(B), i + 1, j, m.clone()) || f(A, clone1(B), i, j + 1, m.clone()) || f(A, clone1(B), i - 1, j, m.clone()) || f(A, clone1(B), i, j - 1, m.clone());
+        return f(A, clone1(B), i + 1, j, s) || f(A, clone1(B), i, j + 1, s) || f(A, clone1(B), i - 1, j, s) || f(A, clone1(B), i, j - 1, s);
     }
 
     public static void main(String[] args) {
@@ -77,6 +65,18 @@ class Solution {
         char[][] A = {{'o','a','a','n'},{'e','t','a','e'},{'i','h','k','r'},{'i','f','l','v'}};
         String[] words = {"oath","pea","eat","rain"};
         System.out.println(new Solution().findWords(A, words));
+
+        // board =
+        //[["a"]]
+        //words =
+        //["a"]
+        //
+        //Use Testcase
+        //Output
+        //[]
+        char[][] B = {{'a'}};
+        String[] words1 = {"a"};
+        System.out.println(new Solution().findWords(B, words1));
 
     }
 }
