@@ -153,3 +153,63 @@ class Solution1 {
         return clone;
     }
 }
+
+class Solution2 {
+
+    class Node {
+        HashMap<Character, Node> m = new HashMap();
+
+        Node add(char c) {
+            Node t = m.get(c);
+            if(t == null) {
+                t = new Node();
+            }
+            m.put(c, t);
+            return t;
+        }
+    }
+    Node head = new Node();
+
+    public List<String> findWords(char[][] board, String[] words) {
+        for(int i = 0; i < board.length; i++) {
+            for(int j = 0; j < board[i].length; j++) {
+                f(head, board, i, j);
+            }
+        }
+
+        LinkedList<String> l = new LinkedList();
+        for(String word : words) {
+            if(f(head, word)) {
+                l.add(word);
+            }
+        }
+        return l;
+    }
+
+    boolean f(Node p, String word) {
+        if (word.equals("")) {
+            return true;
+        }
+
+        Node t = p.m.get(word.charAt(0));
+        if(t == null) {
+            return false;
+        }
+        return f(t, word.substring(1));
+    }
+
+    void f(Node p, char[][] A, int i, int j) {
+        if(i < 0 || i >= A.length || j < 0 || j >= A[0].length || A[i][j] == '#') {
+            return;
+        }
+        char c = A[i][j];
+        p = p.add(c);
+        A[i][j] = '#';
+
+        f(p, A, i + 1, j);
+        f(p, A, i, j + 1);
+        f(p, A, i - 1, j);
+        f(p, A, i, j - 1);
+        A[i][j] = c;
+    }
+}
