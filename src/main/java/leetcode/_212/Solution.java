@@ -212,4 +212,93 @@ class Solution2 {
         f(p, A, i, j - 1);
         A[i][j] = c;
     }
+
+    public static void main(String[] args) {
+        char[][] board = {
+            {'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a'},
+            {'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a'},
+            {'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a'},
+            {'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a'},
+//            {'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a'},
+//            {'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a'},
+//            {'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a'},
+//            {'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a'},
+//            {'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a'},
+//            {'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a'},
+//            {'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a'},
+//            {'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a'}
+        };
+
+        String[] words = {
+            "a", "aa", "aaa", "aaaa", "aaaaa", "aaaaaa", "aaaaaaa", "aaaaaaaa", "aaaaaaaaa", "aaaaaaaaaa"
+        };
+
+        Solution2 solution = new Solution2();
+        List<String> result = solution.findWords(board, words);
+        System.out.println(result);
+    }
+}
+
+class Solution3 {
+
+    class Node {
+        HashMap<Character, Node> m = new HashMap();
+        String word;
+
+        Node add(char c) {
+            Node t = m.get(c);
+            if(t == null) {
+                t = new Node();
+            }
+            m.put(c, t);
+            return t;
+        }
+
+        Node add(String s) {
+            Node t = this;
+            for(char c: s.toCharArray()) {
+                t = t.add(c);
+            }
+            t.word = s;
+            return t;
+        }
+    }
+    Node head = new Node();
+    LinkedList<String> l = new LinkedList();
+
+    public List<String> findWords(char[][] board, String[] words) {
+        for(String word : words) {
+            head.add(word);
+        }
+
+        for(int i = 0; i < board.length; i++) {
+            for(int j = 0; j < board[i].length; j++) {
+                f(head, board, i, j);
+            }
+        }
+
+        return l;
+    }
+
+    void f(Node p, char[][] A, int i, int j) {
+        if(i < 0 || i >= A.length || j < 0 || j >= A[0].length || A[i][j] == '#') {
+            return;
+        }
+        char c = A[i][j];
+        p = p.m.get(c);
+        if(p == null) {
+            return;
+        }
+        if(p.word != null) {
+            l.add(p.word);
+            p.word = null;
+        }
+
+        A[i][j] = '#';
+        f(p, A, i + 1, j);
+        f(p, A, i, j + 1);
+        f(p, A, i - 1, j);
+        f(p, A, i, j - 1);
+        A[i][j] = c;
+    }
 }
