@@ -2,6 +2,8 @@ package neetcode._150.walls_and_gates;
 
 import java.util.Arrays;
 
+// Islands and Treasure
+// Walls And Gates
 class Solution {
     public void islandsAndTreasure(int[][] grid) {
         for(int i = 0; i < grid.length; i++) {
@@ -17,6 +19,10 @@ class Solution {
         if(i < 0 || j < 0 || i >= A.length || j >= A[0].length || A[i][j] == -1) {
             return;
         }
+        if (A[i][j] < n) {
+            return;
+        }
+        
         int t = Math.min(A[i][j], n);
         A[i][j] = -1;
         n++;
