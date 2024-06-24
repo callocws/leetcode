@@ -53,3 +53,46 @@ class Solution {
         }
     }
 }
+
+
+class Solution1 {
+
+    LinkedList<List<Integer>> r = new LinkedList();
+    public List<List<Integer>> pacificAtlantic(int[][] heights) {
+        int[][] B = new int[heights.length][heights[0].length];
+        for(int i = 0; i < heights.length; i++) {
+            Arrays.fill(B[i], 0);
+        }
+        for(int i = 0; i < heights.length; i++) {
+            traverse(heights, B, i, 0, 2, 0);
+            traverse(heights, B, i, heights[0].length - 1, 1, 0);
+        }
+        for(int i = 0; i < heights[0].length; i++) {
+            traverse(heights, B, 0, i, 2, 0);
+            traverse(heights, B, heights.length - 1, i, 1, 0);
+        }
+
+        for(int i = 0; i < heights.length; i++) {
+            for(int j = 0; j < heights[i].length; j++) {
+                if(B[i][j] == 3) {
+                    LinkedList<Integer> l = new LinkedList();
+                    l.add(i);
+                    l.add(j);
+                    r.add(l);
+                }
+            }
+        }
+        return r;
+    }
+
+    void traverse(int[][] A, int[][] B, int i, int j, int t, int h) {
+        if(i < 0 || i >= A.length || j < 0 || j >= A[0].length || (t & B[i][j]) > 0 || A[i][j] < h) {
+            return;
+        }
+        B[i][j] |= t;
+        traverse(A, B, i - 1, j, t, A[i][j]);
+        traverse(A, B, i + 1, j, t, A[i][j]);
+        traverse(A, B, i, j - 1, t, A[i][j]);
+        traverse(A, B, i, j + 1, t, A[i][j]);
+    }
+}
