@@ -85,8 +85,52 @@ class Solution1 {
     }
 }
 
-// topological sort
 class Solution2 {
+    class Node {
+        int v;
+        boolean visited;
+        Set<Node> s = new HashSet();
+        public Node(int v) {
+            this.v = v;
+        }
+    }
+    HashMap<Integer, Node> m = new HashMap();
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        for(int i = 0; i < numCourses; i++) {
+            m.put(i, new Node(i));
+        }
+        for(int i = 0; i < prerequisites.length; i++) {
+            Node a = m.get(prerequisites[i][0]), b = m.get(prerequisites[i][1]);
+            b.s.add(a);
+        }
+        for(int i = 0; i < numCourses; i++) {
+            if (!m.get(i).visited && checkCycle(m.get(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+    boolean checkCycle(Node p) {
+        if(p.s.isEmpty()) {
+            return false;
+        }
+        if (p.visited) {
+            return true;
+        }
+        p.visited = true;
+        for(Node n : p.s) {
+            if(checkCycle(n)) {
+                return true;
+            }
+        }
+        p.s = Set.of();
+        return false;
+    }
+}
+
+
+// topological sort
+class Solution3 {
     class Node {
         int v;
         int d;
