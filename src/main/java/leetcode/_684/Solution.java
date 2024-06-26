@@ -39,3 +39,33 @@ class Solution {
         return false;
     }
 }
+
+class Solution1 {
+    public int[] findRedundantConnection(int[][] edges) {
+        int[] A = new int[edges.length + 1];
+        for(int i = 1; i < A.length; i++) {
+            A[i] = i;
+        }
+        for(int[] e : edges) {
+            if(!merge(A, e[0], e[1])) {
+                return e;
+            }
+        }
+        return null;
+    }
+    int find(int[] A, int i) {
+        if(A[i] != i) {
+            A[i] = find(A, A[i]);
+        }
+        return A[i];
+    }
+    boolean merge(int[] A, int i, int j) {
+        i = find(A, i);
+        j = find(A, j);
+        if(i == j) {
+            return false;
+        }
+        A[i] = j;
+        return true;
+    }
+}
