@@ -1,6 +1,7 @@
 package neetcode._150.number_of_connected_components_in_an_undirected_graph;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class Solution {
     public int countComponents(int n, int[][] edges) {
@@ -31,5 +32,33 @@ public class Solution {
         for(int j : adj[i]) {
             dfs(visited, adj, j);
         }
+    }
+}
+
+//union find
+class Solution1 {
+    public int countComponents(int n, int[][] edges) {
+        int[] A = new int[n];
+        HashSet<Integer> s = new HashSet();
+        for(int i = 0; i < n; i++) {
+            A[i] = i;
+        }
+        for(int[] e : edges) {
+            merge(A, e[0], e[1]);
+        }
+        for(int i = 0; i < n; i++) {
+            s.add(find(A, i));
+        }
+        return s.size();
+    }
+
+    int find(int[] A, int i) {
+        if(A[i] != i) {
+            A[i] = find(A, A[i]);
+        }
+        return A[i];
+    }
+    void merge(int[] A, int i, int j) {
+        A[find(A, i)] = find(A, j);
     }
 }
