@@ -58,3 +58,65 @@ class Solution {
         return cnt <= 1;
     }
 }
+
+class Solution1 {
+    ArrayList<Integer>[] adj;
+    HashSet<Integer> visited = new HashSet();
+    int cnt = 0;
+    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+        wordList.add(beginWord);
+        adj = new ArrayList[wordList.size()];
+
+        int endi = -1;
+        for(int i = 0; i < wordList.size(); i++) {
+            adj[i] = new ArrayList();
+            if(wordList.get(i).equals(endWord)) {
+                endi = i;
+            }
+        }
+        if(endi == -1) {
+            return 0;
+        }
+        for(int i = 0; i < wordList.size(); i++) {
+            for(int j = i + 1; j < wordList.size(); j++) {
+                String a = wordList.get(i), b = wordList.get(j);
+                if(isDifferBy1Letter(a, b)) {
+                    adj[i].add(j);
+                    adj[j].add(i);
+                }
+            }
+        }
+        return bfs(wordList.size() - 1, endi);
+    }
+    int bfs(int start, int end) {
+        ArrayList<Integer> q = new ArrayList<Integer>();
+        q.add(start);
+        for(int i = 0; i < q.size();) {
+            int nums = q.size();
+            cnt++;
+            for(; i < nums; i++) {
+                int p = q.get(i);
+                if(visited.contains(p)) {
+                    continue;
+                }
+                if(p == end) {
+                    return cnt;
+                }
+                visited.add(p);
+                for(int j : adj[p]) {
+                    q.add(j);
+                }
+            }
+        }
+        return 0;
+    }
+    boolean isDifferBy1Letter(String s1, String s2) {
+        int cnt = 0;
+        for(int i = 0; i < s1.length(); i++) {
+            if(s1.charAt(i) != s2.charAt(i)) {
+                cnt++;
+            }
+        }
+        return cnt <= 1;
+    }
+}
