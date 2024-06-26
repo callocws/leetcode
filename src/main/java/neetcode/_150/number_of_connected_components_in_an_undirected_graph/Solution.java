@@ -62,3 +62,42 @@ class Solution1 {
         A[find(A, i)] = find(A, j);
     }
 }
+
+class Solution2 {
+    public int countComponents(int n, int[][] edges) {
+        int[] A = new int[n], R = new int[n];
+        for(int i = 0; i < n; i++) {
+            A[i] = i;
+            R[i] = 1;
+        }
+        for(int[] e : edges) {
+            if(merge(A, R, e[0], e[1])) {
+                n--;
+            }
+        }
+        return n;
+    }
+
+    int find(int[] A, int i) {
+        if(A[i] != i) {
+            A[i] = find(A, A[i]);
+        }
+        return A[i];
+    }
+
+    boolean merge(int[] A, int[] R, int i, int j) {
+        i = find(A, i);
+        j = find(A, j);
+        if(i == j) {
+            return false;
+        }
+        if(R[i] >= R[j]) {
+            A[j] = i;
+            R[i] += R[j];
+        } else {
+            A[i] = j;
+            R[j] += R[i];
+        }
+        return true;
+    }
+}
