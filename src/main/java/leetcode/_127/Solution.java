@@ -1,6 +1,8 @@
 package leetcode._127;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
@@ -118,5 +120,63 @@ class Solution1 {
             }
         }
         return cnt <= 1;
+    }
+}
+
+class Solution2 {
+    HashSet<String> visited = new HashSet();
+    int cnt = 0;
+    HashMap<String, ArrayList<String>> m = new HashMap();
+    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+        wordList.add(beginWord);
+
+        for(int i = 0; i < wordList.size(); i++) {
+            String s = wordList.get(i);
+            for(int j = 0; j < s.length(); j++) {
+                String p = pattern(s, j);
+                ArrayList<String> arr = m.get(p);
+                if(arr == null) {
+                    arr = new ArrayList<String>();
+                }
+                arr.add(s);
+                m.put(p, arr);
+            }
+        }
+        return bfs(beginWord, endWord);
+    }
+    String pattern(String s, int i) {
+        String start = i == 0 ? "" : s.substring(0, i);
+        return start + "*" + s.substring(i + 1);
+    }
+    int bfs(String start, String end) {
+        ArrayList<String> q = new ArrayList<String>();
+        q.add(start);
+        for(int i = 0; i < q.size();) {
+            int nums = q.size();
+            cnt++;
+            for(; i < nums; i++) {
+                String p = q.get(i);
+                if(visited.contains(p)) {
+                    continue;
+                }
+                if(p.equals(end)) {
+                    return cnt;
+                }
+                visited.add(p);
+                for(int j = 0; j < p.length(); j++) {
+                    String pa = pattern(p, j);
+                    for(String t : m.get(pa)) {
+                        q.add(t);
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+
+    public static void main(String[] args) {
+
+        Solution2 s = new Solution2();
+        System.out.println(s.ladderLength("hit", "cog", new ArrayList<>(Arrays.asList("hot","dot","dog","lot","log","cog"))));
     }
 }
