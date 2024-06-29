@@ -93,5 +93,20 @@ class Solution1 {
 }
 
 
+class Solution2 {
 
+    public boolean wordBreak(String s, List<String> wordDict) {
+        HashSet<String> set = new HashSet(wordDict);
+        int n = s.length(), dp[] = new int[n + 1], i = n - 1;
+        for(dp[n] = 1; i >= 0; i--) {
+            for(int j = i + 1; j <= n; j++) {
+                if(set.contains(s.substring(i, j)) && dp[j] == 1) {
+                    dp[i] = 1;
+                    break;
+                }
+            }
+        }
+        return dp[0] == 1;
+    }
+}
 
