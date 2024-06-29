@@ -3,6 +3,7 @@ package leetcode._139;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 class Solution {
     
@@ -59,12 +60,16 @@ class Solution {
 
 class Solution1 {
 
+    Set<String> m = new HashSet<>();
     public boolean wordBreak(String s, List<String> wordDict) {
         HashSet<String> set = new HashSet(wordDict);
         return contains(s, set);
     }
 
     boolean contains(String s, HashSet<String> set) {
+        if(m.contains(s)) {
+            return false;
+        }
         if(s.isEmpty()) {
             return true;
         }
@@ -73,7 +78,17 @@ class Solution1 {
                 return true;
             }
         }
+        m.add(s);
         return false;
+    }
+
+    public static void main(String[] args) {
+        // s =
+        //"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaab"
+        //wordDict =
+        //["a","aa","aaa","aaaa","aaaaa","aaaaaa","aaaaaaa","aaaaaaaa","aaaaaaaaa","aaaaaaaaaa"]
+        System.out.println(new Solution1().wordBreak("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaab",
+            List.of("a","aa","aaa","aaaa","aaaaa","aaaaaa","aaaaaaa","aaaaaaaa","aaaaaaaaa","aaaaaaaaaa")));
     }
 }
 
