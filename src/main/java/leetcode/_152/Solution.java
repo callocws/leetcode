@@ -9,6 +9,9 @@ class Solution {
             a = v[1];
             b = v[0];
             product = Math.max(product, a);
+            if (product == 1000000000) {
+                break;
+            }
         }
         return product;
     }
