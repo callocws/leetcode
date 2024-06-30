@@ -36,3 +36,27 @@ class Solution {
         return r;
     }
 }
+
+class Solution1 {
+    public int[][] insert(int[][] intervals, int[] newInterval) {
+        ArrayList<int[]> arr = new ArrayList();
+        boolean first = true;
+        for(int[] inter : intervals) {
+            if(newInterval[1] < inter[0]) {
+                if(first) {
+                    arr.add(newInterval);
+                    first = false;
+                }
+                arr.add(inter);
+            } else if(newInterval[0] > inter[1]) {
+                arr.add(inter);
+            } else {
+                newInterval = new int[]{Math.min(newInterval[0], inter[0]), Math.max(newInterval[1], inter[1])};
+            }
+        }
+        if(first) {
+            arr.add(newInterval);
+        }
+        return arr.toArray(new int[arr.size()][]);
+    }
+}
