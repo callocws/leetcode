@@ -18,3 +18,31 @@ class Solution {
         return f(i + 1, n, nums) || f(i + 1, n - nums[i], nums);
     }
 }
+
+class Solution1 {
+    public boolean canPartition(int[] nums) {
+        int n = 0;
+        for(int i = 0; i < nums.length; i++) {
+            n += nums[i];
+        }
+
+        if(n % 2 == 1) {
+            return false;
+        }
+
+        n >>= 1;
+        int[][] q = new int[nums.length + 1][n + 1];
+        q[0][n] = 1;
+        for(int i = 1; i <= nums.length; i++) {
+            for(int j = n; j >= 0; j--) {
+                if(q[i - 1][j] == 1) {
+                    q[i][j] = 1;
+                    if(j - nums[i - 1] >= 0) {
+                        q[i][j - nums[i - 1]] = 1;
+                    }
+                }
+            }
+        }
+        return q[nums.length][0] == 1;
+    }
+}
