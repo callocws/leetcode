@@ -46,3 +46,24 @@ class Solution1 {
         return q[nums.length][0] == 1;
     }
 }
+
+class Solution2 {
+    public boolean canPartition(int[] nums) {
+        int n = 0;
+        for(int i = 0; i < nums.length; i++) {
+            n += nums[i];
+        }
+        if(n % 2 == 1) {
+            return false;
+        }
+        n >>= 1;
+        boolean[] q = new boolean[n + 1];
+        q[n] = true;
+        for(int num : nums) {
+            for(int j = 0; j <= n - num; j++) {
+                q[j] = q[j] || q[j + num];
+            }
+        }
+        return q[0];
+    }
+}
