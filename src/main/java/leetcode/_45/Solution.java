@@ -18,3 +18,21 @@ class Solution {
     }
 }
 
+class Solution1 {
+    public int jump(int[] nums) {
+        int l, r, cnt = 0;
+        for (l = r = 0; r < nums.length - 1;) {
+            int t = 0;
+            for (int j = l; j <= r; j++) {
+                t = Math.max(t, nums[j] + j);
+            }
+            l = r + 1;
+            r = t;
+            cnt++;
+        }
+
+        return cnt;
+    }
+}
+
+
