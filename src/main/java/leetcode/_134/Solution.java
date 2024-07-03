@@ -44,3 +44,21 @@ class Solution1 {
         return cnt >= n ? index : -1;
     }
 }
+
+class Solution2 {
+    public int canCompleteCircuit(int[] gas, int[] cost) {
+        int i, j, n = gas.length, s = 0, t = 0;
+        for (i = 0; i < n; i++) {
+            gas[i] -= cost[i];
+        }
+        for(j = i = 0; i < n; i++) {
+            s += gas[i];
+            t += gas[i];
+            if(s < 0) {
+                s = 0;
+                j = i + 1;
+            }
+        }
+        return t < 0 ? -1 : j;
+    }
+}
