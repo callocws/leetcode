@@ -5,7 +5,7 @@ import java.util.List;
 
 class Solution {
     public List<Integer> partitionLabels(String s) {
-        int A[] = new int[26], cnt = 0;
+        int A[] = new int[26];
         List<Integer> result = new ArrayList();
         char cs[] = s.toCharArray();
         for(int i = 0; i < cs.length; i++) {
