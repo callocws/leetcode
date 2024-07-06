@@ -9,7 +9,7 @@ import java.util.TreeSet;
 
 public class Solution {
     public String alienOrder(String[] words) {
-        Set<Character> set = new TreeSet(); // unrelational chars
+        Set<Character> unrelationalSet = new TreeSet(), relationalSet = new TreeSet();
         Map<Character, ArrayList<Character>> m = new TreeMap();
         HashMap<Character, Integer> degree = new HashMap();
         for(int i = 1; i < words.length; i++) {
@@ -27,25 +27,25 @@ public class Solution {
         }
         for(String w : words) {
             for(char c : w.toCharArray()) {
-                set.add(c);
+                unrelationalSet.add(c);
             }
         }
         for(var v : m.keySet()) {
-            set.remove(v);
+            relationalSet.add(v);
         }
         for(var v : m.values()) {
-            set.removeAll(v);
+            relationalSet.addAll(v);
         }
+        unrelationalSet.removeAll(relationalSet);
 
+        //topology sort
         ArrayList<Character> q = new ArrayList();
         for(char c : m.keySet()) {
             if(degree.getOrDefault(c, 0) == 0) {
                 q.add(c);
             }
         }
-        if(q.isEmpty() && !degree.isEmpty()) {
-            return "";
-        }
+
         Set<Character> orderSet = new TreeSet();
         for(int i = 0; i < q.size() || !orderSet.isEmpty(); ) {
             if(i == q.size()) {
@@ -62,9 +62,12 @@ public class Solution {
             }
             i++;
         }
+        if (relationalSet.size() > q.size()) {
+            return "";
+        }
         
         StringBuilder sb = new StringBuilder();
-        ArrayList<Character> leftq = new ArrayList(set);
+        ArrayList<Character> leftq = new ArrayList(unrelationalSet);
         int i = 0, j = 0;
         for(; i < q.size() && j < leftq.size();) {
             if(q.get(i) < leftq.get(j)) {
@@ -84,6 +87,7 @@ public class Solution {
 
     public static void main(String[] args) {
         // ["ab","abc"]
+        System.out.println(new Solution().alienOrder(new String[]{"a","bc","bb","ba"}));
         System.out.println(new Solution().alienOrder(new String[]{"abc","ab"}));
         System.out.println(new Solution().alienOrder(new String[]{"ab","abc"}));
         System.out.println(new Solution().alienOrder(new String[]{"wrt","wrf","er","ett","rftt"}));
