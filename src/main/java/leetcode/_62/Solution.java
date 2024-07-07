@@ -6,6 +6,7 @@ class Solution {
     }
 
     int fac(int u, int d) {
+        u = Math.min(d - u, u);
         long a, b, i;
         for(a = b = i = 1; i <= u;i++, d--) {
             a *= i;
@@ -23,5 +24,6 @@ class Solution {
         System.out.println(new Solution().uniquePaths(10, 10)); //48620
         System.out.println(new Solution().uniquePaths(23,12)); // 193536720
         System.out.println(new Solution().uniquePaths(51, 9)); //1916797311
+        System.out.println(new Solution().uniquePaths(59, 5)); //557845
     }
 }
