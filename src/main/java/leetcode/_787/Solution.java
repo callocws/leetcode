@@ -1,6 +1,7 @@
 package leetcode._787;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.PriorityQueue;
 
 class Solution {
@@ -29,5 +30,22 @@ class Solution {
             }
         }
         return -1;
+    }
+}
+
+class Solution1 {
+    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
+        int cost[] = new int[n], i;
+        Arrays.fill(cost, Integer.MAX_VALUE);
+        for(cost[src] = i = 0; i < k + 1; i++) {
+            int temp[] = cost.clone();
+            for(int f[] : flights) {
+                if(cost[f[0]] < Integer.MAX_VALUE) {
+                    temp[f[1]] = Math.min(temp[f[1]], cost[f[0]] + f[2]);
+                }
+            }
+            cost = temp;
+        }
+        return cost[dst] == Integer.MAX_VALUE ? -1 : cost[dst];
     }
 }
