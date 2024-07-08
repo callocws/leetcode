@@ -28,3 +28,32 @@ class Solution {
         return dp[i][j][li][lj] = 1 + s;
     }
 }
+
+class Solution1 {
+    public int longestIncreasingPath(int[][] matrix) {
+        dp = new Integer[matrix.length][matrix[0].length][4];
+        int s = 0;
+        for(int i = 0; i < matrix.length; i++) {
+            for(int j = 0; j < matrix[0].length; j++) {
+                s = Math.max(s, longestIncreasingPath(matrix, i, j, -1, 0));
+            }
+        }
+        return s;
+    }
+    Integer dp[][][];
+    int[][] dirs = new int[][]{{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+
+    int longestIncreasingPath(int[][] matrix, int i, int j, int last, int dir) {
+        if(i < 0 || i >= matrix.length || j < 0 || j >= matrix[0].length || matrix[i][j] <= last) {
+            return 0;
+        }
+        if(dp[i][j][dir] != null) {
+            return dp[i][j][dir];
+        }
+        int s = 0;
+        for(int k = 0; k < dirs.length; k++) {
+            s = Math.max(s, longestIncreasingPath(matrix, i + dirs[k][0], j + dirs[k][1], matrix[i][j], k));
+        }
+        return dp[i][j][dir] = 1 + s;
+    }
+}
