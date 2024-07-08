@@ -31,29 +31,29 @@ class Solution {
 
 class Solution1 {
     public int longestIncreasingPath(int[][] matrix) {
-        dp = new Integer[matrix.length][matrix[0].length][4];
+        dp = new Integer[matrix.length][matrix[0].length];
         int s = 0;
         for(int i = 0; i < matrix.length; i++) {
             for(int j = 0; j < matrix[0].length; j++) {
-                s = Math.max(s, longestIncreasingPath(matrix, i, j, -1, 0));
+                s = Math.max(s, longestIncreasingPath(matrix, i, j, -1));
             }
         }
         return s;
     }
-    Integer dp[][][];
+    Integer dp[][];
     int[][] dirs = new int[][]{{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
 
-    int longestIncreasingPath(int[][] matrix, int i, int j, int last, int dir) {
+    int longestIncreasingPath(int[][] matrix, int i, int j, int last) {
         if(i < 0 || i >= matrix.length || j < 0 || j >= matrix[0].length || matrix[i][j] <= last) {
             return 0;
         }
-        if(dp[i][j][dir] != null) {
-            return dp[i][j][dir];
+        if(dp[i][j] != null) {
+            return dp[i][j];
         }
         int s = 0;
         for(int k = 0; k < dirs.length; k++) {
-            s = Math.max(s, longestIncreasingPath(matrix, i + dirs[k][0], j + dirs[k][1], matrix[i][j], k));
+            s = Math.max(s, longestIncreasingPath(matrix, i + dirs[k][0], j + dirs[k][1], matrix[i][j]));
         }
-        return dp[i][j][dir] = 1 + s;
+        return dp[i][j] = 1 + s;
     }
 }
