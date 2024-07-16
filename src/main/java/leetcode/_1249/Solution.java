@@ -1,5 +1,7 @@
 package leetcode._1249;
 
+import java.util.LinkedList;
+
 class Solution {
     public String minRemoveToMakeValid(String s) {
         int cnt = 0;
@@ -27,5 +29,35 @@ class Solution {
             s = cs[i] + s;
         }
         return s;
+    }
+}
+
+
+class Solution1 {
+    public String minRemoveToMakeValid(String s) {
+        StringBuilder sb = new StringBuilder();
+        LinkedList<Integer> l = new LinkedList();
+        char cs[] = s.toCharArray();
+        for(int i = 0; i < cs.length; i++) {
+            if(cs[i] == '(') {
+                l.push(i);
+            }
+            if(cs[i] == ')') {
+                if(l.isEmpty()) {
+                    cs[i] = '.';
+                } else {
+                    l.pop();
+                }
+            }
+        }
+        for(int index : l) {
+            cs[index] = '.';
+        }
+        for(char c : cs) {
+            if(c != '.') {
+                sb.append(c);
+            }
+        }
+        return sb.toString();
     }
 }
