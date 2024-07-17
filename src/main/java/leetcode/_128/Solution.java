@@ -1,5 +1,6 @@
 package leetcode._128;
 
+import java.util.HashMap;
 import java.util.HashSet;
 
 //https://leetcode.com/problems/longest-consecutive-sequence/solutions/41057/simple-o-n-with-explanation-just-walk-each-streak
@@ -27,5 +28,34 @@ class Solution {
 
     public static void main(String[] args) {
         System.out.println(new Solution().longestConsecutive(new int[]{100, 4, 200, 1, 3, 2}));
+    }
+}
+
+class Solution1 {
+    HashMap<Integer, Integer> map = new HashMap();
+
+    public int longestConsecutive(int[] nums) {
+        for(int i = 0; i < nums.length; i++) {
+            map.put(nums[i], i);
+        }
+
+        int cnt = 0;
+        for(int i = 0; i < nums.length; i++) {
+            cnt = Math.max(-1 * putAndGet(nums[i]), cnt);
+        }
+        return cnt;
+    }
+
+    int putAndGet(int v) {
+        Integer index = map.get(v);
+        if(index == null) {
+            return 0;
+        }
+        if(index < 0) {
+            return index;
+        }
+        int cnt = -1 + putAndGet(v + 1);
+        map.put(v, cnt);
+        return cnt;
     }
 }
