@@ -30,3 +30,30 @@ class Solution {
         return dp[i][k] = m;
     }
 }
+
+class Solution1 {
+    public int splitArray(int[] nums, int k) {
+        int l = 0, r = 0;
+        for(int i = 0; i < nums.length; i++) {
+            l = Math.max(l, nums[i]);
+            r += nums[i];
+        }
+        for(;l < r;) {
+            int m = l + (r - l) / 2, cnt = 1, s = 0;
+            for(int i = 0; i < nums.length && cnt <= k; i++) {
+                if(s + nums[i] <= m) {
+                    s += nums[i];
+                } else {
+                    cnt++;
+                    s = nums[i];
+                }
+            }
+            if(cnt <= k) {
+                r = m;
+            } else {
+                l = m + 1;
+            }
+        }
+        return l;
+    }
+}
