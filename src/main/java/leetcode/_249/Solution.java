@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+// group-shifted-strings
 public class Solution {
     public List<List<String>> groupStrings(String[] strings) {
         HashMap<String, List<String>> m = new HashMap();
@@ -29,5 +30,6 @@ public class Solution {
         String[] strings = {"abc","bcd","acef","xyz","az","ba","a","z"};
         List<List<String>> res = new Solution().groupStrings(strings);
         res.forEach(System.out::println);
+        System.out.println();
     }
 }
