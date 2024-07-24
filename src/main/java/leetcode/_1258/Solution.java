@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
+
+// sth wrong with this solution, the latter set may be in the same group with the previous set
 class Solution {
     ArrayList<String> result = new ArrayList();
     HashSet<String>[] sets = new HashSet[10];
@@ -62,12 +64,10 @@ class Solution1 {
             }
         }
         for(List<String> strs : synonyms) {
-            add(strs.get(0), strs.get(1));
+            union(strs.get(0), strs.get(1));
         }
-        for(List<String> strs : synonyms) {
-            for(String str : strs) {
-                mapSet.computeIfAbsent(findParent(str), k -> new HashSet<String>()).add(str);
-            }
+        for(String str : map.keySet()) {
+            mapSet.computeIfAbsent(find(str), k -> new HashSet<>()).add(str);
         }
 
         generateSentences(0, text.split(" "));
@@ -75,20 +75,20 @@ class Solution1 {
         return result;
     }
 
-    String findParent(String str) {
+    String find(String str) {
         String parent = map.get(str);
         if(parent == null || parent == str) {
             return parent;
         }
-        parent = findParent(parent);
+        parent = find(parent);
         map.put(str, parent);
         return parent;
     }
 
-    void add(String a, String b) {
-        String parent1 = findParent(a);
-        String parent2 = findParent(b);
-        map.put(a, parent2);
+    void union(String a, String b) {
+        String parent1 = find(a);
+        String parent2 = find(b);
+        map.put(parent1, parent2);
     }
 
     void generateSentences(int index, String[] words) {
@@ -96,9 +96,9 @@ class Solution1 {
             result.add(String.join(" ", words));
             return;
         }
-        String parent = findParent(words[index]);
+        String parent = find(words[index]);
         if(parent != null) {
-            for(var word : mapSet.get(findParent(words[index]))) {
+            for(var word : mapSet.get(find(words[index]))) {
                 words[index] = word;
                 generateSentences(index + 1, words);
             }
@@ -109,10 +109,10 @@ class Solution1 {
 
     public static void main(String[] args) {
         var s = new Solution1();
-        System.out.println(s.generateSentences(List.of(List.of("happy", "joy"), List.of("sad", "sorrow"), List.of("joy", "cheerful")), "I am happy today but was sad yesterday"));
+//        System.out.println(s.generateSentences(List.of(List.of("happy", "joy"), List.of("sad", "sorrow"), List.of("joy", "cheerful")), "I am happy today but was sad yesterday"));
 
 
-//        System.out.println(s.generateSentences(List.of(List.of("happy", "joy"), List.of("cheerful", "glad")), "I am happy today but was sad yesterday"));
+        System.out.println(s.generateSentences(List.of(List.of("happy", "joy"), List.of("cheerful", "glad"), List.of("happy", "glad")), "I am happy today but was sad yesterday"));
     }
 
 }
