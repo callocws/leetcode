@@ -46,3 +46,26 @@ class Solution1 {
         return t;
     }
 }
+
+
+class Solution2 {
+    public int longestOnes(int[] nums, int k) {
+        int dp[] = new int[k + 1], t = 0;
+        for(int i = 0; i < nums.length; i++) {
+            for(int j = k; j > 0; j--) {
+                if(nums[i] == 0) {
+                    dp[j] = dp[j - 1] + 1;
+                } else {
+                    dp[j] = dp[j] + 1;
+                }
+            }
+            dp[0] = nums[i] == 0 ? 0 : (dp[0] + 1);
+            t = Math.max(t, dp[k]);
+        }
+        return t;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(new Solution2().longestOnes(new int[]{0,0,1,1}, 3));
+    }
+}
