@@ -69,3 +69,24 @@ class Solution2 {
         System.out.println(new Solution2().longestOnes(new int[]{0,0,1,1}, 3));
     }
 }
+
+class Solution3 {
+    public int longestOnes(int[] nums, int k) {
+        int l = -1, r = 0, max = 0, cnt = 0;
+        for(;r < nums.length;) {
+            if(nums[r] == 1) {
+                r++;
+            } else {
+                if(cnt < k) {
+                    cnt++;
+                    r++;
+                } else {
+                    for(;nums[++l] != 0;) {}
+                    cnt--;
+                }
+            }
+            max = Math.max(max, r - l - 1);
+        }
+        return max;
+    }
+}
