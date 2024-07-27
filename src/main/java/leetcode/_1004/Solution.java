@@ -27,3 +27,22 @@ class Solution {
         return dp[index][k] = t;
     }
 }
+
+class Solution1 {
+    public int longestOnes(int[] nums, int k) {
+        int dp[][] = new int[2][nums.length + 1], t = 0;
+        for(int i = 0; i <= k; i++) {
+            for(int j = 1; j <= nums.length; j++) {
+                if(nums[j - 1] == 0) {
+                    dp[1][j] = i == 0 ? 0 : dp[0][j - 1] + 1;
+                } else {
+                    dp[1][j] = dp[1][j - 1] + 1;
+                }
+            }
+            for(int j = 1; j <= nums.length; j++) {
+                t = Math.max(t, dp[0][j] = dp[1][j]);
+            }
+        }
+        return t;
+    }
+}
