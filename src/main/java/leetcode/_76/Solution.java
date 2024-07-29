@@ -41,3 +41,34 @@ class Solution {
         return true;
     }
 }
+
+class Solution1 {
+    public String minWindow(String s, String t) {
+        int cnt[] = new int[128];
+        for(char c : t.toCharArray()) {
+            cnt[c]++;
+        }
+        int l, r;
+        String m = "";
+        char cs[] = s.toCharArray();
+        for(l = r = 0; r < cs.length; r++) {
+            cnt[cs[r]]--;
+            for(;isValid(cnt); l++) {
+                if(m == "" || m.length() > r - l + 1) {
+                    m = s.substring(l, r + 1);
+                }
+                cnt[cs[l]]++;
+            }
+        }
+        return m;
+    }
+
+    boolean isValid(int cnts[]) {
+        for(int cnt : cnts) {
+            if(cnt > 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
