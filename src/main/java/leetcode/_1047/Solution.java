@@ -23,7 +23,7 @@ class Solution {
             tail.previous = t;
             p = t;
         }
-        for(p = head.next, q = head ;p != tail;) {
+        for(p = head.next, q = head; p != tail;) {
             if(p.value == q.value) {
                 p = p.next;
                 q = q.previous;
@@ -43,5 +43,18 @@ class Solution {
 }
 
 
-
+class Solution1 {
+    public String removeDuplicates(String s) {
+        int left, right;
+        char cs[] = s.toCharArray();
+        for(left = right = 0; right < cs.length; right++) {
+            if(left > 0 && cs[left - 1] == cs[right]) {
+                left--;
+            } else {
+                cs[left++] = cs[right];
+            }
+        }
+        return new String(cs, 0, left);
+    }
+}
 
