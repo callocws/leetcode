@@ -36,3 +36,33 @@ class Solution {
         System.out.println(new Solution().multiply("2", "3"));
     }
 }
+
+class Solution1 {
+    public String multiply(String num1, String num2) {
+        char num1Arr[] = num1.toCharArray(), num2Arr[] = num2.toCharArray();
+        int nums[] = new int[num1Arr.length + num2Arr.length];
+        for(int i = num2Arr.length - 1; i >= 0; i--) {
+            int k = num2Arr.length - i - 1;
+            for(int j = num1Arr.length - 1; j >= 0; j--) {
+                int v = (num1Arr[j] - '0') * (num2Arr[i] - '0');
+                nums[nums.length - 1 - k - (num1Arr.length - 1 - j)] +=  v;
+            }
+        }
+        for(int j = nums.length - 1, carry = 0; j >= 0; j--) {
+            int s = carry + nums[j];
+            nums[j] = s % 10;
+            carry = s / 10;
+        }
+        StringBuilder sb = new StringBuilder();
+        int i = 0;
+        for(; i < nums.length && nums[i] == 0; i++) {}
+        for(; i < nums.length; i++) {
+            sb.append(nums[i]);
+        }
+        return sb.length() == 0 ? "0" : sb.toString();
+    }
+
+    public static void main(String[] args){
+        System.out.println(new Solution1().multiply("2", "3"));
+    }
+}
