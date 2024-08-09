@@ -54,3 +54,41 @@ class DetectSquares {
         System.out.println(ds.count(new int[]{11, 10}));
     }
 }
+
+class DetectSquares1 {
+
+    HashMap<Node, Integer> map = new HashMap();
+
+    class Node {
+        int x, y;
+        Node(int... point) {
+            x = point[0];
+            y = point[1];
+        }
+        public boolean equals(Object obj) {
+            Node o = (Node)obj;
+            return this.x == o.x && this.y == o.y;
+        }
+        public int hashCode() {
+            return x * y;
+        }
+    }
+
+    public void add(int[] point) {
+        Node n = new Node(point);
+        map.put(n, map.getOrDefault(n, 0) + 1);
+    }
+
+    public int count(int[] point) {
+        int cnt = 0;
+        for(var e : map.entrySet()) {
+            if(e.getKey().y != point[1] && Math.abs(e.getKey().y - point[1]) == Math.abs(e.getKey().x - point[0])) {
+                int k = e.getValue();
+                k *= map.getOrDefault(new Node(e.getKey().x, point[1]), 0);
+                k *= map.getOrDefault(new Node(point[0], e.getKey().y), 0);
+                cnt += k;
+            }
+        }
+        return cnt;
+    }
+}
