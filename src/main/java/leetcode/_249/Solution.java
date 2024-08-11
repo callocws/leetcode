@@ -16,12 +16,10 @@ public class Solution {
 
     String groupString(String str) {
         char cs[] = str.toCharArray();
-        if(cs.length == 1) {
-            return "";
-        }
         StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < cs.length - 1; i++) {
-            sb.append((cs[i] - cs[i + 1] + 26) % 26);
+        for(int i = 1; i < cs.length; i++) {
+            sb.append((cs[i] - cs[i - 1] + 26) % 26);
+            sb.append("-");
         }
         return sb.toString();
     }
