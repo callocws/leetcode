@@ -68,4 +68,28 @@ class Solution1 {
         r.addAll(s);
         return r;
     }
+
+    public static void main(String[] args){
+        System.out.println(new Solution1().threeSum(new int[]{-1,0,1,2,-1,-4}));
+    }
+}
+
+class Solution2 {
+    public List<List<Integer>> threeSum(int[] nums) {
+        Set<List<Integer>> set = new HashSet();
+        Arrays.sort(nums);
+        for(int i = 0; i < nums.length; i++) {
+            for(int l = i + 1, r = nums.length - 1; l < r;) {
+                int s = nums[l] + nums[r];
+                if(s == -nums[i]) {
+                    set.add(List.of(nums[i], nums[l++], nums[r--]));
+                } else if (s < -nums[i]) {
+                    l++;
+                } else {
+                    r--;
+                }
+            }
+        }
+        return new ArrayList(set);
+    }
 }
