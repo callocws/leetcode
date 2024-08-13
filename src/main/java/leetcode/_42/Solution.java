@@ -27,6 +27,26 @@ class Solution {
 
 class Solution1 {
     public int trap(int[] height) {
+        int mi = 0, cnt = 0;
+        for(int i = 0; i < height.length; i++) {
+            if(height[mi] < height[i]) {
+                mi = i;
+            }
+        }
+        for(int i = 0, l = 0; i < mi; i++) {
+            cnt += Math.max(Math.min(l, height[mi]) - height[i], 0);
+            l = Math.max(l, height[i]);
+        }
+        for(int i = height.length - 1, r = 0; i > mi; i--) {
+            cnt += Math.max(Math.min(r, height[mi]) - height[i], 0);
+            r = Math.max(r, height[i]);
+        }
+        return cnt;
+    }
+}
+
+class Solution2 {
+    public int trap(int[] height) {
         int m = 0, i = 0, j = height.length - 1, l = height[i], r = height[j];
         for(;i <= j;) {
             if(l <= r) {
