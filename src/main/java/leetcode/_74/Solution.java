@@ -47,3 +47,27 @@ class Solution1 {
         return false;
     }
 }
+
+
+class Solution2 {
+    public boolean searchMatrix(int[][] matrix, int target) {
+        int M = matrix.length, N = matrix[0].length;
+        for(int i = 0, j = M * N; i < j;) {
+            int m = (i + j) >> 1;
+            int r = m / N;
+            int c = m % N;
+            int v = matrix[r][c];
+            if(v == target) {
+                return true;
+            } else if(v < target) {
+                i = m + 1;
+            } else {
+                j = m;
+            }
+        }
+        return false;
+    }
+    public static void main(String[] args){
+        System.out.println(new Solution2().searchMatrix(new int[][]{{1,3,5,7},{10,11,16,20},{23,30,34,60}}, 3));
+    }
+}

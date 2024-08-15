@@ -23,7 +23,7 @@ class Solution1 {
         int cnt = 0, i = 0;
         for (; i < nums.length; i++) {
             int t = nums[i] - i - nums[0];
-            if(t < k) {
+            if (t < k) {
                 cnt = t;
             } else {
                 return nums[i - 1] + (k - cnt);
@@ -37,7 +37,7 @@ class Solution1_2 {
     public int missingElement(int[] nums, int k) {
         int i = 0;
         for (; i < nums.length; i++) {
-            if(nums[i] - i - nums[0] >= k) {
+            if (nums[i] - i - nums[0] >= k) {
                 return k + (i - 1) + nums[0];
             }
         }
@@ -75,5 +75,20 @@ class Solution2_1 {
             }
         }
         return --l + nums[0] + k;
+    }
+}
+
+class Solution2_2 {
+    public int missingElement(int[] nums, int k) {
+        int l = 0, r = nums.length - 1, m;
+        for (; l <= r; ) {
+            m = (l + r) >> 1;
+            if (nums[m] - m - nums[0] >= k) {
+                r = m - 1;
+            } else {
+                l = m + 1;
+            }
+        }
+        return r + nums[0] + k;
     }
 }
