@@ -46,9 +46,7 @@ class Solution {
 class Solution1 {
     public double findMedianSortedArrays(int[] A, int[] B) {
         if (A.length > B.length) {
-            int t[] = B;
-            B = A;
-            A = t;
+            return findMedianSortedArrays(B, A);
         }
         for (int i = -1, j = A.length; ; ) {
             int mA = (i + j) >> 1, mB = (A.length + B.length - 1) / 2 - 1 - mA;
