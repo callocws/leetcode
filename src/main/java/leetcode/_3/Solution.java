@@ -48,3 +48,20 @@ class Solution1 {
         return result;
     }
 }
+
+class Solution2 {
+    public int lengthOfLongestSubstring(String s) {
+        HashMap<Character, Integer> m = new HashMap();
+        char cs[] = s.toCharArray();
+        int result = 0;
+        for (int i = 0, j = 0; i < cs.length; i++) {
+            Integer index = m.get(cs[i]);
+            if (index != null) {
+                j = Math.max(j, index + 1);
+            }
+            m.put(cs[i], i);
+            result = Math.max(result, i - j + 1);
+        }
+        return result;
+    }
+}
