@@ -2,24 +2,25 @@ package leetcode._1004;
 
 class Solution {
     Integer[][] dp;
+
     public int longestOnes(int[] nums, int k) {
-        dp = new Integer[nums.length + 1][k + 1]; 
+        dp = new Integer[nums.length + 1][k + 1];
         int t = 0;
-        for(int i = 0; i < nums.length; i++) {
+        for (int i = 0; i < nums.length; i++) {
             t = Math.max(t, longestOnes(nums, i, k));
         }
         return t;
     }
 
     int longestOnes(int[] nums, int index, int k) {
-        if(index < 0 || k == 0 && nums[index] == 0) {
+        if (index < 0 || k == 0 && nums[index] == 0) {
             return 0;
         }
-        if(dp[index][k] != null) {
+        if (dp[index][k] != null) {
             return dp[index][k];
         }
         int t = 1;
-        if(nums[index] == 0) {
+        if (nums[index] == 0) {
             t += longestOnes(nums, index - 1, k - 1);
         } else {
             t += longestOnes(nums, index - 1, k);
@@ -31,15 +32,15 @@ class Solution {
 class Solution1 {
     public int longestOnes(int[] nums, int k) {
         int dp[][] = new int[2][nums.length + 1], t = 0;
-        for(int i = 0; i <= k; i++) {
-            for(int j = 1; j <= nums.length; j++) {
-                if(nums[j - 1] == 0) {
+        for (int i = 0; i <= k; i++) {
+            for (int j = 1; j <= nums.length; j++) {
+                if (nums[j - 1] == 0) {
                     dp[1][j] = i == 0 ? 0 : dp[0][j - 1] + 1;
                 } else {
                     dp[1][j] = dp[1][j - 1] + 1;
                 }
             }
-            for(int j = 1; j <= nums.length; j++) {
+            for (int j = 1; j <= nums.length; j++) {
                 t = Math.max(t, dp[0][j] = dp[1][j]);
             }
         }
@@ -47,13 +48,12 @@ class Solution1 {
     }
 }
 
-
 class Solution2 {
     public int longestOnes(int[] nums, int k) {
         int dp[] = new int[k + 1], t = 0;
-        for(int i = 0; i < nums.length; i++) {
-            for(int j = k; j > 0; j--) {
-                if(nums[i] == 0) {
+        for (int i = 0; i < nums.length; i++) {
+            for (int j = k; j > 0; j--) {
+                if (nums[i] == 0) {
                     dp[j] = dp[j - 1] + 1;
                 } else {
                     dp[j] = dp[j] + 1;
@@ -66,27 +66,46 @@ class Solution2 {
     }
 
     public static void main(String[] args) {
-        System.out.println(new Solution2().longestOnes(new int[]{0,0,1,1}, 3));
+        System.out.println(new Solution2().longestOnes(new int[] {0, 0, 1, 1}, 3));
     }
 }
 
 class Solution3 {
     public int longestOnes(int[] nums, int k) {
         int l = -1, r = 0, max = 0, cnt = 0;
-        for(;r < nums.length;) {
-            if(nums[r] == 1) {
+        for (; r < nums.length; ) {
+            if (nums[r] == 1) {
                 r++;
             } else {
-                if(cnt < k) {
+                if (cnt < k) {
                     cnt++;
                     r++;
                 } else {
-                    for(;nums[++l] != 0;) {}
+                    for (; nums[++l] != 0; ) {}
                     cnt--;
                 }
             }
             max = Math.max(max, r - l - 1);
         }
         return max;
+    }
+}
+
+class Solution3_1 {
+    public int longestOnes(int[] nums, int k) {
+        int result = 0;
+        for (int l = 0, r = 0; r < nums.length; ) {
+            if (nums[r] == 1) {
+                r++;
+            } else if (nums[r] == 0 && k > 0) {
+                r++;
+                k--;
+            } else {
+                for (; nums[l++] == 1; ) {}
+                k++;
+            }
+            result = Math.max(result, r - l);
+        }
+        return result;
     }
 }
