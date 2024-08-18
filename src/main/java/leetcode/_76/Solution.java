@@ -104,3 +104,28 @@ class Solution2 {
         System.out.println(new Solution2().minWindow("ADOBECODEBANC", "ABC"));
     }
 }
+
+class Solution3 {
+    public String minWindow(String s, String t) {
+        char cs[] = s.toCharArray(), ct[] = t.toCharArray();
+        int count[] = new int[128], result[] = new int[] { 0, 1_000_000 };
+        for (char c : ct) {
+            count[c]++;
+        }
+        for (int l = 0, r = 0, k = ct.length; r < cs.length; r++) {
+            if(count[cs[r]]-- > 0) {
+                k--;
+            }
+
+            for (; k == 0;) {
+                if (r - l < result[1] - result[0]) {
+                    result = new int[] { l, r };
+                }
+                if(count[cs[l++]]++ == 0) {
+                    k++;
+                }
+            }
+        }
+        return result[1] - result[0] == 1000_000 ? "" : s.substring(result[0], result[1] + 1);
+    }
+}
