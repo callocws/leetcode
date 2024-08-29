@@ -7,20 +7,42 @@ import leetcode.TreeNode;
 class Solution {
 
     LinkedList<Integer> l = new LinkedList();
+
     public List<Integer> rightSideView(TreeNode root) {
         f(root, 0);
         return l;
     }
 
     void f(TreeNode p, int h) {
-        if(p == null) {
+        if (p == null) {
             return;
         }
-        if(l.size() <= h) {
+        if (l.size() <= h) {
             l.add(p.val);
         }
         f(p.left, h + 1);
         f(p.right, h + 1);
         l.set(h, p.val);
+    }
+}
+
+class Solution1 {
+
+    LinkedList<Integer> l = new LinkedList();
+
+    public List<Integer> rightSideView(TreeNode root) {
+        f(root, 0);
+        return l;
+    }
+
+    void f(TreeNode p, int h) {
+        if (p == null) {
+            return;
+        }
+        if (h >= l.size()) {
+            l.add(p.val);
+        }
+        f(p.right, h + 1);
+        f(p.left, h + 1);
     }
 }
