@@ -92,9 +92,9 @@ class Trie1 {
         }
     }
 
-    public Trie1() {}
-
     Node head = new Node();
+
+    public Trie1() {}
 
     public void insert(String word) {
         head.insert(word);
