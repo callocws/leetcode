@@ -1,4 +1,4 @@
-package neetcode._150.walls_and_gates;
+package leetcode._286;
 
 import java.util.Arrays;
 
