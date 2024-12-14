@@ -61,6 +61,60 @@ class Solution {
     }
 }
 
+class Solution_dfs {
+    ArrayList<Integer>[] adj;
+    HashMap<Integer, Integer> visited = new HashMap<>();
+    int cnt = 6000;
+    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+        wordList.add(beginWord);
+        adj = new ArrayList[wordList.size()];
+
+        int endi = -1;
+        for(int i = 0; i < wordList.size(); i++) {
+            adj[i] = new ArrayList();
+            if(wordList.get(i).equals(endWord)) {
+                endi = i;
+            }
+        }
+        if(endi == -1) {
+            return 0;
+        }
+        for(int i = 0; i < wordList.size(); i++) {
+            for(int j = i + 1; j < wordList.size(); j++) {
+                String a = wordList.get(i), b = wordList.get(j);
+                if(isDifferBy1Letter(a, b)) {
+                    adj[i].add(j);
+                    adj[j].add(i);
+                }
+            }
+        }
+        dfs(wordList.size() - 1, endi, 1);
+        return cnt == 6000 ? 0 : cnt;
+    }
+    void dfs(int start, int end, int n) {
+        if(visited.getOrDefault(start, Integer.MAX_VALUE) <= n) {
+            return;
+        }
+        if(start == end) {
+            cnt = Math.min(cnt, n);
+            return;
+        }
+        visited.put(start, n);
+        for(int i : adj[start]) {
+            dfs(i, end, n + 1);
+        }
+    }
+    boolean isDifferBy1Letter(String s1, String s2) {
+        int cnt = 0;
+        for(int i = 0; i < s1.length(); i++) {
+            if(s1.charAt(i) != s2.charAt(i)) {
+                cnt++;
+            }
+        }
+        return cnt <= 1;
+    }
+}
+
 class Solution1 {
     ArrayList<Integer>[] adj;
     HashSet<Integer> visited = new HashSet();
@@ -134,12 +188,7 @@ class Solution2 {
             String s = wordList.get(i);
             for(int j = 0; j < s.length(); j++) {
                 String p = pattern(s, j);
-                ArrayList<String> arr = m.get(p);
-                if(arr == null) {
-                    arr = new ArrayList<String>();
-                }
-                arr.add(s);
-                m.put(p, arr);
+                m.computeIfAbsent(p, k -> new ArrayList<String>()).add(s);
             }
         }
         return bfs(beginWord, endWord);
