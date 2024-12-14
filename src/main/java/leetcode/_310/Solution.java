@@ -5,7 +5,7 @@ import java.util.List;
 
 class Solution {
     public List<Integer> findMinHeightTrees(int n, int[][] edges) {
-        List<Integer> adj[] = new ArrayList[n], q = new ArrayList(), r = new ArrayList();
+        List<Integer> adj[] = new ArrayList[n], q = new ArrayList(), result = new ArrayList();
         int degree[] = new int[n];
         for (int i = 0; i < n; i++) {
             adj[i] = new ArrayList();
@@ -22,7 +22,7 @@ class Solution {
         }
         for (int i = 0; i < q.size(); ) {
             int t = q.size();
-            r = new ArrayList<>(q.subList(i, t));
+            result = q.subList(i, t);
             for (; i < t; i++) {
                 int index = q.get(i);
                 degree[index]--;
@@ -35,7 +35,7 @@ class Solution {
             }
         }
 
-        return r.isEmpty() ? List.of(0) : r;
+        return result.isEmpty() ? List.of(0) : result;
     }
 
     public static void main(String[] args) {
