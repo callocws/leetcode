@@ -1,10 +1,12 @@
-package neetcode._150.meeting_rooms_ii;
+package leetcode._253;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.PriorityQueue;
 
 class Interval {
     int start, end;
+
     Interval(int start, int end) {
         this.start = start;
         this.end = end;
@@ -20,9 +22,9 @@ public class Solution {
         intervals.sort((o1, o2) -> o1.start - o2.start);
         PriorityQueue<Integer> pq = new PriorityQueue();
         pq.add(intervals.get(0).end);
-        for(int i = 1; i < intervals.size(); i++) {
+        for (int i = 1; i < intervals.size(); i++) {
             Interval t = intervals.get(i);
-            if(pq.peek() <= t.start) {
+            if (pq.peek() <= t.start) {
                 pq.poll();
             }
             pq.add(t.end);
@@ -35,16 +37,36 @@ class Solution1 {
     public int minMeetingRooms(List<Interval> intervals) {
         int start[] = new int[intervals.size()], end[] = new int[intervals.size()];
         intervals.sort((o1, o2) -> o1.start - o2.start);
-        for(int i = 0; i < intervals.size(); i++) {
+        for (int i = 0; i < intervals.size(); i++) {
             start[i] = intervals.get(i).start;
         }
         intervals.sort((o1, o2) -> o1.end - o2.end);
-        for(int i = 0; i < intervals.size(); i++) {
+        for (int i = 0; i < intervals.size(); i++) {
             end[i] = intervals.get(i).end;
         }
         int i, j, cnt = 0, m = 0;
-        for(i = j = 0; i < start.length && j < start.length;) {
-            if(start[i] < end[j]) {
+        for (i = j = 0; i < start.length && j < start.length; ) {
+            if (start[i] < end[j]) {
+                cnt++;
+                m = Math.max(m, cnt);
+                i++;
+            } else {
+                cnt--;
+                j++;
+            }
+        }
+        return m;
+    }
+}
+
+class Solution2 {
+    public int minMeetingRooms(List<Interval> intervals) {
+        List<Interval> start = intervals, end = new ArrayList<>(intervals);
+        intervals.sort((o1, o2) -> o1.start - o2.start);
+        end.sort((o1, o2) -> o1.end - o2.end);
+        int i, j, cnt = 0, m = 0;
+        for (i = j = 0; i < start.size() && j < start.size(); ) {
+            if (start.get(i).start < end.get(j).end) {
                 cnt++;
                 m = Math.max(m, cnt);
                 i++;
