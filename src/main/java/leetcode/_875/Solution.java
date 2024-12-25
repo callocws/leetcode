@@ -55,3 +55,27 @@ class Solution1 {
         return i;
     }
 }
+
+class Solution2 {
+    public int minEatingSpeed(int[] piles, int h) {
+        long i = 1, j = 1_000_000_000;
+        for (; i <= j; ) {
+            long m = (i + j) >> 1, t = 0;
+            for (int pile : piles) {
+                t += (pile + m - 1) / m;
+            }
+            if (t <= h) {
+                j = m - 1;
+            } else {
+                i = m + 1;
+            }
+        }
+        return (int) i;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(
+                new Solution2()
+                        .minEatingSpeed(new int[] {805306368, 805306368, 805306368}, 1000000000));
+    }
+}
