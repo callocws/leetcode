@@ -14,3 +14,21 @@ class Solution {
         return nums[i];
     }
 }
+
+class Solution1 {
+    public int findMin(int[] nums) {
+        return findMin(nums, 0, nums.length - 1);
+    }
+
+    private int findMin(int[] nums, int i, int j) {
+        if (i == j) {
+            return nums[i];
+        }
+        int m = (i + j) / 2;
+        if (nums[m] < nums[j]) {
+            return findMin(nums, i, m);
+        } else {
+            return findMin(nums, m + 1, j);
+        }
+    }
+}
