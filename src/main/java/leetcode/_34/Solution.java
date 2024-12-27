@@ -94,3 +94,35 @@ class Solution2 {
         }
     }
 }
+
+class Solution3 {
+    public int[] searchRange(int[] nums, int target) {
+        int l = search(nums, 0, nums.length - 1, target),
+                r = search1(nums, 0, nums.length - 1, target);
+        return new int[] {l, r};
+    }
+
+    int search(int[] A, int i, int j, int target) {
+        for (; i <= j; ) {
+            int m = (i + j) >> 1;
+            if (A[m] < target) {
+                i = m + 1;
+            } else {
+                j = m - 1;
+            }
+        }
+        return i < A.length && A[i] == target ? i : -1;
+    }
+
+    int search1(int[] A, int i, int j, int target) {
+        for (; i <= j; ) {
+            int m = (i + j) >> 1;
+            if (A[m] <= target) {
+                i = m + 1;
+            } else {
+                j = m - 1;
+            }
+        }
+        return j >= 0 && A[j] == target ? j : -1;
+    }
+}
