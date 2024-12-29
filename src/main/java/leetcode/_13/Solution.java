@@ -42,3 +42,27 @@ class Solution {
         return sum;
     }
 }
+
+class Solution1 {
+    public int romanToInt(String str) {
+        HashMap<Character, Integer> map = new HashMap();
+        map.put('I', 1);
+        map.put('V', 5);
+        map.put('X', 10);
+        map.put('L', 50);
+        map.put('C', 100);
+        map.put('D', 500);
+        map.put('M', 1000);
+
+        int sum = 0;
+        char cs[] = str.toCharArray();
+        for (int i = 0; i < cs.length; i++) {
+            if (i < cs.length - 1 && map.get(cs[i]) < map.get(cs[i + 1])) {
+                sum += map.get(cs[i]) * -1;
+            } else {
+                sum += map.get(cs[i]);
+            }
+        }
+        return sum;
+    }
+}
