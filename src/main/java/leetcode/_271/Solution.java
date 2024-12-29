@@ -1,4 +1,4 @@
-package leetcode._659;
+package leetcode._271;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -36,5 +36,36 @@ class Solution {
         String encode = new Solution().encode(list);
         System.out.println(encode);
         System.out.println(new Solution().decode(encode));
+    }
+}
+
+class Solution1 {
+    /*
+     * @param strs: a list of strings
+     * @return: encodes a list of strings to a single string.
+     */
+    public String encode(List<String> strs) {
+        StringBuilder sb = new StringBuilder();
+        for (String s : strs) {
+            sb.append(s.length() + "#" + s);
+        }
+        return sb.toString();
+    }
+
+    /*
+     * @param str: A string
+     * @return: decodes a single string to a list of strings
+     */
+    public List<String> decode(String str) {
+        LinkedList<String> l = new LinkedList();
+        char[] cs = str.toCharArray();
+
+        for (int i = 0, j = 0; j < cs.length; ) {
+            for (; cs[j] != '#'; j++) {}
+            int k = Integer.parseInt(new String(cs, i, j - i));
+            l.add(new String(cs, j + 1, k));
+            i = j = j + k + 1;
+        }
+        return l;
     }
 }
