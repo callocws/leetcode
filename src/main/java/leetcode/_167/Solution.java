@@ -35,3 +35,20 @@ class Solution1 {
         return null;
     }
 }
+
+class Solution2 {
+    public int[] twoSum(int[] numbers, int target) {
+        return twoSum(numbers, target, 0, numbers.length - 1);
+    }
+
+    int[] twoSum(int[] numbers, int target, int l, int r) {
+        int s = numbers[l] + numbers[r];
+        if (s == target) {
+            return new int[] {l + 1, r + 1};
+        } else if (s < target) {
+            return twoSum(numbers, target, l + 1, r);
+        } else {
+            return twoSum(numbers, target, l, r - 1);
+        }
+    }
+}
