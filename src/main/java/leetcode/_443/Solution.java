@@ -53,10 +53,10 @@ class Solution2 {
     public int compress(char[] chars) {
         int i = 0, j = 0;
         for (; j < chars.length; ) {
-            int t = j;
-            for (; j < chars.length && chars[j] == chars[t]; j++) {}
-            int times = j - t;
-            chars[i++] = chars[t];
+            int start = j;
+            for (; j < chars.length && chars[j] == chars[start]; j++) {}
+            int times = j - start;
+            chars[i++] = chars[start];
             if (times > 1) {
                 for (char tc : ("" + times).toCharArray()) {
                     chars[i++] = tc;
