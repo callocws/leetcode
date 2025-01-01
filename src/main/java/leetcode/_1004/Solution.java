@@ -48,7 +48,7 @@ class Solution1 {
     }
 }
 
-class Solution2 {
+class Solution1_2 {
     public int longestOnes(int[] nums, int k) {
         int dp[] = new int[k + 1], t = 0;
         for (int i = 0; i < nums.length; i++) {
@@ -66,7 +66,26 @@ class Solution2 {
     }
 
     public static void main(String[] args) {
-        System.out.println(new Solution2().longestOnes(new int[] {0, 0, 1, 1}, 3));
+        System.out.println(new Solution1_2().longestOnes(new int[] {0, 0, 1, 1}, 3));
+    }
+}
+
+class Solution2 {
+    public int longestOnes(int[] nums, int k) {
+        int cnt = 0;
+        for (int i = 0; i < nums.length; i++) {
+            int j = i, t = k;
+            for (; j < nums.length; j++) {
+                if (nums[j] == 0) {
+                    if (t == 0) {
+                        break;
+                    }
+                    t--;
+                }
+            }
+            cnt = Math.max(cnt, j - i);
+        }
+        return cnt;
     }
 }
 
