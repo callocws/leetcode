@@ -91,40 +91,18 @@ class Solution2 {
 
 class Solution3 {
     public int longestOnes(int[] nums, int k) {
-        int l = -1, r = 0, max = 0, cnt = 0;
-        for (; r < nums.length; ) {
-            if (nums[r] == 1) {
-                r++;
-            } else {
-                if (cnt < k) {
-                    cnt++;
-                    r++;
+        int cnt = 0;
+        for (int i = 0, j = 0; j < nums.length; j++) {
+            if (nums[j] == 0) {
+                if (k == 0) {
+                    for (; nums[i] == 1; i++) {}
+                    i++;
                 } else {
-                    for (; nums[++l] != 0; ) {}
-                    cnt--;
+                    k--;
                 }
             }
-            max = Math.max(max, r - l - 1);
+            cnt = Math.max(cnt, j - i + 1);
         }
-        return max;
-    }
-}
-
-class Solution3_1 {
-    public int longestOnes(int[] nums, int k) {
-        int result = 0;
-        for (int l = 0, r = 0; r < nums.length; ) {
-            if (nums[r] == 1) {
-                r++;
-            } else if (nums[r] == 0 && k > 0) {
-                r++;
-                k--;
-            } else {
-                for (; nums[l++] == 1; ) {}
-                k++;
-            }
-            result = Math.max(result, r - l);
-        }
-        return result;
+        return cnt;
     }
 }
