@@ -13,13 +13,13 @@ class Solution {
 
             if (s.equals("+") || s.equals("-") || s.equals("*") || s.equals("/")) {
                 int x = l.pop(), y = l.pop();
-                if (s == "+") {
+                if (s.equals("+")) {
                     l.push(x + y);
-                } else if (s == "-") {
+                } else if (s.equals("-")) {
                     l.push(y - x);
-                } else if (s == "*") {
+                } else if (s.equals("*")) {
                     l.push(x * y);
-                } else if (s == "/") {
+                } else if (s.equals("/")) {
                     l.push(y / x);
                 }
             } else {
