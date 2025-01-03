@@ -16,19 +16,21 @@ class Solution {
                 h.put(cs[i - s1.length()], h.getOrDefault(cs[i - s1.length()], 0) + 1);
             }
 
-            boolean b = true;
-            for (int v : h.values()) {
-                if (v != 0) {
-                    b = false;
-                    break;
-                }
-            }
-            if (b) {
+            if (isValid(h)) {
                 return true;
             }
         }
 
         return false;
+    }
+
+    boolean isValid(HashMap<Character, Integer> h) {
+        for (int v : h.values()) {
+            if (v != 0) {
+                return false;
+            }
+        }
+        return true;
     }
 }
 
