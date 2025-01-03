@@ -53,7 +53,7 @@ class Solution1 {
         for (l = r = 0; r < cs.length; r++) {
             cnt[cs[r]]--;
             for (; isValid(cnt); l++) {
-                if (m == "" || m.length() > r - l + 1) {
+                if (m.equals("") || m.length() > r - l + 1) {
                     m = s.substring(l, r + 1);
                 }
                 cnt[cs[l]]++;
@@ -108,20 +108,20 @@ class Solution2 {
 class Solution3 {
     public String minWindow(String s, String t) {
         char cs[] = s.toCharArray(), ct[] = t.toCharArray();
-        int count[] = new int[128], result[] = new int[] { 0, 1_000_000 };
+        int count[] = new int[128], result[] = new int[] {0, 1_000_000};
         for (char c : ct) {
             count[c]++;
         }
         for (int l = 0, r = 0, k = ct.length; r < cs.length; r++) {
-            if(count[cs[r]]-- > 0) {
+            if (count[cs[r]]-- > 0) {
                 k--;
             }
 
-            for (; k == 0;) {
+            for (; k == 0; ) {
                 if (r - l < result[1] - result[0]) {
-                    result = new int[] { l, r };
+                    result = new int[] {l, r};
                 }
-                if(count[cs[l++]]++ == 0) {
+                if (count[cs[l++]]++ == 0) {
                     k++;
                 }
             }
