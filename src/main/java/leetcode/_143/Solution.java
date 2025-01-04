@@ -24,7 +24,7 @@ class Solution {
 
 class Solution1 {
     public void reorderList(ListNode head) {
-        ListNode h = new ListNode(), p = head;
+        ListNode p = head;
         ArrayList<ListNode> l = new ArrayList();
         for (; p != null; p = p.next) {
             l.add(p);
