@@ -30,11 +30,9 @@ class Solution1 {
             l.add(p);
         }
         p = head;
-        for (int i = 0, n = l.size(); i < (n + 1) / 2; i++) {
+        for (int i = 0, n = l.size() - 1; i <= n / 2; i++) {
             p = p.next = l.get(i);
-            if (i != n - i - 1) {
-                p = p.next = l.get(n - i - 1);
-            }
+            p = p.next = l.get(n - i);
         }
         p.next = null;
     }
