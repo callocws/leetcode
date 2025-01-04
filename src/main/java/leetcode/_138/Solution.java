@@ -1,37 +1,37 @@
 package leetcode._138;
 
-
 import leetcode.Node;
 
 // 138. Copy List with Random Pointer
 class Solution {
     public Node copyRandomList(Node head) {
-        Node p, q, cl;
-        for(p = head; p != null; ) {
+        Node p, q, cloneHead;
+        for (p = head; p != null; ) {
             q = new Node(p.val);
             q.next = p.next;
             q.random = p.random;
             p.next = q;
             p = q.next;
         }
-        for(p = head; p != null; ) {
+        for (p = head; p != null; ) {
             q = p.next;
             p = q.next;
-            if(q.random != null) {
+            if (q.random != null) {
                 q.random = q.random.next;
             }
         }
-        for(p = head, cl = head == null ? null : head.next; p != null; ) {
+        for (p = head, cloneHead = head == null ? null : head.next; p != null; ) {
             q = p.next;
             p.next = q.next;
             p = q.next;
-            if(p != null) {
+            if (p != null) {
                 q.next = p.next;
             }
         }
 
-        return cl;
+        return cloneHead;
     }
+
     public static void main(String[] args) {
         // Create a linked list with random pointers
         Node head = new Node(7);
@@ -72,5 +72,4 @@ class Solution {
             temp = temp.next;
         }
     }
-
 }

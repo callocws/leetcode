@@ -4,29 +4,25 @@ import leetcode.ListNode;
 
 class Solution {
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        ListNode p = l1, q = l2, t, k, h;
-        int over = 0;
-        for(k = h = new ListNode(); over > 0 || p != null || q != null; ) {
+        ListNode p = l1, q = l2, t, previous, head;
+        int carry = 0;
+        for (previous = head = new ListNode(); carry > 0 || p != null || q != null; ) {
             t = new ListNode();
-            if(p != null) {
+            if (p != null) {
                 t.val += p.val;
                 p = p.next;
             }
-            if(q != null) {
+            if (q != null) {
                 t.val += q.val;
                 q = q.next;
             }
-            t.val += over;
-            if(t.val >= 10) {
-                t.val %= 10;
-                over = 1;
-            } else {
-                over = 0;
-            }
+            t.val += carry;
+            carry = t.val / 10;
+            t.val %= 10;
 
-            k.next = t;
-            k = t;
+            previous.next = t;
+            previous = t;
         }
-        return h.next;
+        return head.next;
     }
 }
