@@ -7,20 +7,20 @@ class Solution {
 
     public ListNode reverseKGroup(ListNode head, int k) {
         LinkedList<ListNode> list = new LinkedList();
-        ListNode p = head, q, newHead = new ListNode(), t = newHead, next;
+        ListNode p = head, newHead = new ListNode(), q = newHead, next;
         for (int i = 1; p != null; p = next, i++) {
             next = p.next;
             list.add(p);
             if (i == k) {
                 while (!list.isEmpty()) {
-                    t = t.next = list.removeLast();
-                    t.next = null;
+                    q = q.next = list.removeLast();
+                    q.next = null;
                 }
                 i = 0;
             }
         }
         if (!list.isEmpty()) {
-            t.next = list.pop();
+            q.next = list.pop();
         }
         return newHead.next;
     }
