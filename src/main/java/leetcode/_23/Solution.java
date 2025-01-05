@@ -4,11 +4,32 @@ import leetcode.ListNode;
 
 class Solution {
     public ListNode mergeKLists(ListNode[] lists) {
-        ListNode l = new ListNode();
-        for(int i = 0; i < lists.length; i++) {
-            ListNode h1 = l.next, h2 = lists[i], p, q, t;
-            for(p = h1, q = h2, t = l; p != null && q != null;) {
-                if(p.val <= q.val) {
+        ListNode head = new ListNode(), p = head;
+        for (int j; ; ) {
+            j = -1;
+            for (int i = 0; i < lists.length; i++) {
+                if (lists[i] != null && (j == -1 || lists[i].val < lists[j].val)) {
+                    j = i;
+                }
+            }
+            if (j != -1) {
+                p = p.next = lists[j];
+                lists[j] = p.next;
+            } else {
+                break;
+            }
+        }
+        return head.next;
+    }
+}
+
+class Solution1 {
+    public ListNode mergeKLists(ListNode[] lists) {
+        ListNode head = new ListNode();
+        for (int i = 0; i < lists.length; i++) {
+            ListNode h1 = head.next, h2 = lists[i], p, q, t;
+            for (p = h1, q = h2, t = head; p != null && q != null; ) {
+                if (p.val <= q.val) {
                     t.next = p;
                     t = p;
                     p = p.next;
@@ -18,20 +39,20 @@ class Solution {
                     q = q.next;
                 }
             }
-            if(p == null) {
+            if (p == null) {
                 t.next = q;
             } else {
                 t.next = p;
             }
         }
-        return l.next;
+        return head.next;
     }
 }
 
-class Solution1 {
+class Solution1_1 {
 
     ListNode partition(ListNode[] lists, int i, int j) {
-        if(i >= j) {
+        if (i >= j) {
             return j < 0 ? null : lists[j];
         }
         int m = (i + j) / 2;
@@ -41,11 +62,11 @@ class Solution1 {
     }
 
     ListNode merge(ListNode p, ListNode q) {
-        if(p == null || q == null) {
+        if (p == null || q == null) {
             return p == null ? q : p;
         }
         ListNode t;
-        if(p.val < q.val) {
+        if (p.val < q.val) {
             t = merge(p.next, q);
             p.next = t;
             return p;
