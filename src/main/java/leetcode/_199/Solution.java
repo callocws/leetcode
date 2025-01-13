@@ -1,48 +1,49 @@
 package leetcode._199;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import leetcode.TreeNode;
 
 class Solution {
 
-    LinkedList<Integer> l = new LinkedList();
+    List<Integer> result = new ArrayList<>();
 
     public List<Integer> rightSideView(TreeNode root) {
-        f(root, 0);
-        return l;
+        rightSideView(root, 0);
+        return result;
     }
 
-    void f(TreeNode p, int h) {
+    void rightSideView(TreeNode p, int level) {
         if (p == null) {
             return;
         }
-        if (l.size() <= h) {
-            l.add(p.val);
+        if (result.size() <= level) {
+            result.add(p.val);
         }
-        f(p.left, h + 1);
-        f(p.right, h + 1);
-        l.set(h, p.val);
+        rightSideView(p.left, level + 1);
+        rightSideView(p.right, level + 1);
+        result.set(level, p.val);
     }
 }
 
 class Solution1 {
 
-    LinkedList<Integer> l = new LinkedList();
+    LinkedList<Integer> result = new LinkedList();
 
     public List<Integer> rightSideView(TreeNode root) {
-        f(root, 0);
-        return l;
+        rightSideView(root, 0);
+        return result;
     }
 
-    void f(TreeNode p, int h) {
+    void rightSideView(TreeNode p, int level) {
         if (p == null) {
             return;
         }
-        if (h >= l.size()) {
-            l.add(p.val);
+        if (level >= result.size()) {
+            result.add(p.val);
         }
-        f(p.right, h + 1);
-        f(p.left, h + 1);
+        rightSideView(p.right, level + 1);
+        rightSideView(p.left, level + 1);
     }
 }
