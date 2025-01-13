@@ -3,6 +3,7 @@ package leetcode._102;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.TreeMap;
 import leetcode.TreeNode;
 
 class Solution {
@@ -38,26 +39,67 @@ class Solution {
 
 class Solution1 {
     public List<List<Integer>> levelOrder(TreeNode root) {
-        LinkedList<List<Integer>> r = new LinkedList();
-        ArrayList<TreeNode> l = new ArrayList();
+        LinkedList<List<Integer>> result = new LinkedList();
+        ArrayList<TreeNode> list = new ArrayList();
         if (root != null) {
-            l.add(root);
+            list.add(root);
         }
-        for (int i = 0; i < l.size(); ) {
-            int size = l.size();
+        for (int i = 0; i < list.size(); ) {
+            int size = list.size();
             LinkedList<Integer> t = new LinkedList();
             for (; i < size; i++) {
-                TreeNode p = l.get(i);
+                TreeNode p = list.get(i);
                 if (p != null) {
-                    l.add(p.left);
-                    l.add(p.right);
+                    list.add(p.left);
+                    list.add(p.right);
                     t.add(p.val);
                 }
             }
             if (!t.isEmpty()) {
-                r.add(t);
+                result.add(t);
             }
         }
-        return r;
+        return result;
+    }
+}
+
+class Solution2 {
+
+    TreeMap<Integer, List<Integer>> map = new TreeMap();
+
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        levelOrder(root, 0);
+        return new ArrayList(map.values());
+    }
+
+    void levelOrder(TreeNode root, int level) {
+        if (root == null) {
+            return;
+        }
+        map.computeIfAbsent(level, k -> new ArrayList()).add(root.val);
+        levelOrder(root.left, level + 1);
+        levelOrder(root.right, level + 1);
+    }
+}
+
+class Solution2_1 {
+
+    List<List<Integer>> result = new ArrayList<>();
+
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        levelOrder(root, 0);
+        return result;
+    }
+
+    void levelOrder(TreeNode root, int level) {
+        if (root == null) {
+            return;
+        }
+        if (result.size() <= level) {
+            result.add(new ArrayList<>());
+        }
+        result.get(level).add(root.val);
+        levelOrder(root.left, level + 1);
+        levelOrder(root.right, level + 1);
     }
 }
