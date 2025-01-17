@@ -3,21 +3,22 @@ package leetcode._1448;
 import leetcode.TreeNode;
 
 class Solution {
-    int s;
+    int cnt;
+
     public int goodNodes(TreeNode root) {
-        f(root, Integer.MIN_VALUE);
-        return s;
+        goodNodes(root, Integer.MIN_VALUE);
+        return cnt;
     }
 
-    void f(TreeNode p, int v) {
-        if(p == null) {
+    void goodNodes(TreeNode p, int v) {
+        if (p == null) {
             return;
         }
-        int t = Math.max(p.val, v);
-        if(p.val >= v) {
-            s++;
+        if (p.val >= v) {
+            cnt++;
+            v = p.val;
         }
-        f(p.left, t);
-        f(p.right, t);
+        goodNodes(p.left, v);
+        goodNodes(p.right, v);
     }
 }
