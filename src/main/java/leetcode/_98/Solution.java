@@ -4,23 +4,24 @@ import leetcode.TreeNode;
 
 class Solution {
 
-    boolean b = true;
+    boolean isValidBST = true;
 
     public boolean isValidBST(TreeNode root) {
-        f(root);
-        return b;
+        BST_Range(root);
+        return isValidBST;
     }
 
-    int[] f(TreeNode p) {
+    int[] BST_Range(TreeNode p) {
         if (p == null) {
             return new int[] {Integer.MIN_VALUE, Integer.MAX_VALUE};
         }
-        int[] l = f(p.left), r = f(p.right);
-        if (!b || !((p.left == null || l[1] < p.val) && (p.right == null || p.val < r[0]))) {
-            b = false;
+        int[] left = BST_Range(p.left), right = BST_Range(p.right);
+        if (!isValidBST
+                || !((p.left == null || left[1] < p.val) && (p.right == null || p.val < right[0]))) {
+            isValidBST = false;
             return new int[] {-1, -1};
         }
-        return new int[] {p.left == null ? p.val : l[0], p.right == null ? p.val : r[1]};
+        return new int[] {p.left == null ? p.val : left[0], p.right == null ? p.val : right[1]};
     }
 
     public static void main(String[] args) {
@@ -35,12 +36,15 @@ class Solution {
 class Solution1 {
 
     public boolean isValidBST(TreeNode root) {
-        return f(root, Long.MIN_VALUE, Long.MAX_VALUE);
+        return isValidBST(root, Long.MIN_VALUE, Long.MAX_VALUE);
     }
 
-    boolean f(TreeNode p, long min, long max) {
+    boolean isValidBST(TreeNode p, long min, long max) {
         return p == null
-                || min < p.val && p.val < max && f(p.left, min, p.val) && f(p.right, p.val, max);
+                || min < p.val
+                        && p.val < max
+                        && isValidBST(p.left, min, p.val)
+                        && isValidBST(p.right, p.val, max);
     }
 }
 
