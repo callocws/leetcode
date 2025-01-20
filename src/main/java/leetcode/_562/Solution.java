@@ -38,25 +38,18 @@ class Solution_1 {
         if (mat.length == 0) {
             return 0;
         }
-        dp = new Integer[mat.length][mat[0].length][8];
+        dp = new Integer[mat.length][mat[0].length][dirs.length];
         for (int i = 0; i < mat.length; i++) {
             for (int j = 0; j < mat[i].length; j++) {
-                if (mat[i][j] == 1) {
-                    for (int k = 0; k < 4; k++) {
-                        cnt =
-                                Math.max(
-                                        longestLine(mat, i, j, k * 2)
-                                                + longestLine(mat, i, j, k * 2 + 1)
-                                                - 1,
-                                        cnt);
-                    }
+                for (int d = 0; d < dirs.length; d++) {
+                    cnt = Math.max(longestLine(mat, i, j, d), cnt);
                 }
             }
         }
         return cnt;
     }
 
-    int dirs[][] = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}, {-1, -1}, {1, 1}, {1, -1}, {-1, 1}};
+    int dirs[][] = {{1, -1}, {1, 0}, {1, 1}, {0, 1}};
 
     int longestLine(int[][] mat, int i, int j, int d) {
         if (i >= 0 && j >= 0 && i < mat.length && j < mat[i].length && mat[i][j] != 0) {
