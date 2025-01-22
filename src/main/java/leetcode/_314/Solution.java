@@ -2,6 +2,7 @@ package leetcode._314;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -64,5 +65,42 @@ class Solution1 {
         horizontalOrderList.get(row).add(new int[] {col, root.val});
         traverse(root.left, row + 1, col - 1);
         traverse(root.right, row + 1, col + 1);
+    }
+}
+
+class Solution2 {
+    Map<Integer, List<Integer>> verticalOrderMap = new HashMap<>();
+
+    public List<List<Integer>> verticalOrder(TreeNode root) {
+        List<List<Integer>> result = new ArrayList();
+
+        List<TreeNode> list = new ArrayList();
+        LinkedList<Integer> cols = new LinkedList();
+        list.add(root);
+        cols.add(0);
+        int min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
+
+        for (int i = 0; i < list.size(); ) {
+            int size = list.size();
+            for (; i < size; i++) {
+                TreeNode p = list.get(i);
+                int col = cols.removeFirst();
+
+                if (p != null) {
+                    verticalOrderMap.computeIfAbsent(col, k -> new ArrayList()).add(p.val);
+                    min = Math.min(min, col);
+                    max = Math.max(max, col);
+                    list.add(p.left);
+                    list.add(p.right);
+                    cols.add(col - 1);
+                    cols.add(col + 1);
+                }
+            }
+        }
+
+        for (int i = min; i <= max; i++) {
+            result.add(verticalOrderMap.get(i));
+        }
+        return result;
     }
 }
