@@ -16,12 +16,7 @@ class Trie {
     public void insert(String word) {
         Node p = head;
         for (char c : word.toCharArray()) {
-            Node t = p.m.get(c);
-            if (t == null) {
-                t = new Node();
-            }
-            p.m.put(c, t);
-            p = t;
+            p = p.m.computeIfAbsent(c, k -> new Node());
         }
         p.isComplete = true;
     }
@@ -29,11 +24,10 @@ class Trie {
     public boolean search(String word) {
         Node p = head;
         for (char c : word.toCharArray()) {
-            Node t = p.m.get(c);
-            if (t == null) {
+            p = p.m.get(c);
+            if (p == null) {
                 return false;
             }
-            p = t;
         }
         return p.isComplete;
     }
@@ -41,11 +35,10 @@ class Trie {
     public boolean startsWith(String prefix) {
         Node p = head;
         for (char c : prefix.toCharArray()) {
-            Node t = p.m.get(c);
-            if (t == null) {
+            p = p.m.get(c);
+            if (p == null) {
                 return false;
             }
-            p = t;
         }
         return true;
     }
