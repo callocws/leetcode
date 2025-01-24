@@ -5,7 +5,7 @@ import java.util.HashMap;
 class Trie {
 
     class Node {
-        HashMap<Character, Node> m = new HashMap();
+        HashMap<Character, Node> map = new HashMap();
         boolean isComplete;
     }
 
@@ -16,7 +16,7 @@ class Trie {
     public void insert(String word) {
         Node p = head;
         for (char c : word.toCharArray()) {
-            p = p.m.computeIfAbsent(c, k -> new Node());
+            p = p.map.computeIfAbsent(c, k -> new Node());
         }
         p.isComplete = true;
     }
@@ -24,7 +24,7 @@ class Trie {
     public boolean search(String word) {
         Node p = head;
         for (char c : word.toCharArray()) {
-            p = p.m.get(c);
+            p = p.map.get(c);
             if (p == null) {
                 return false;
             }
@@ -35,7 +35,7 @@ class Trie {
     public boolean startsWith(String prefix) {
         Node p = head;
         for (char c : prefix.toCharArray()) {
-            p = p.m.get(c);
+            p = p.map.get(c);
             if (p == null) {
                 return false;
             }

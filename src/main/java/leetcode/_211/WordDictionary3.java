@@ -152,3 +152,45 @@ class WordDictionary2 {
         return head.search(word);
     }
 }
+
+class WordDictionary3 {
+
+    public WordDictionary3() {}
+
+    class Node {
+        HashMap<Character, Node> map = new HashMap();
+        boolean isComplete;
+    }
+
+    Node head = new Node();
+
+    public void addWord(String word) {
+        Node p = head;
+        for (char c : word.toCharArray()) {
+            p = p.map.computeIfAbsent(c, k -> new Node());
+        }
+        p.isComplete = true;
+    }
+
+    public boolean search(String word) {
+        return search(head, word, 0);
+    }
+
+    public boolean search(Node p, String word, int i) {
+        if (p == null) {
+            return false;
+        }
+        if (i == word.length()) {
+            return p.isComplete;
+        }
+        if (word.charAt(i) == '.') {
+            for (char c : p.map.keySet()) {
+                if (search(p.map.get(c), word, i + 1)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        return search(p.map.get(word.charAt(i)), word, i + 1);
+    }
+}
