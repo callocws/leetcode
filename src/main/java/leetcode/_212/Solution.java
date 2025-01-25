@@ -372,3 +372,57 @@ class Solution4 {
         board[i][j] = c;
     }
 }
+
+class Solution4_1 {
+
+    class Node {
+        HashMap<Character, Node> map = new HashMap();
+        String word;
+    }
+
+    void insert(String word) {
+        Node p = head;
+        for (char c : word.toCharArray()) {
+            p = p.map.computeIfAbsent(c, k -> new Node());
+        }
+        p.word = word;
+    }
+
+    Node head = new Node();
+    LinkedList<String> result = new LinkedList();
+
+    public List<String> findWords(char[][] board, String[] words) {
+        for (String word : words) {
+            insert(word);
+        }
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                dfs(board, i, j, head);
+            }
+        }
+        return result;
+    }
+
+    int[][] dirs = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+
+    void dfs(char[][] board, int i, int j, Node p) {
+        char c;
+        if (i < 0
+                || i >= board.length
+                || j < 0
+                || j >= board[0].length
+                || (c = board[i][j]) == '#'
+                || (p = p.map.get(c)) == null) {
+            return;
+        }
+        board[i][j] = '#';
+        if (p.word != null) {
+            result.add(p.word);
+            p.word = null;
+        }
+        for (int[] dir : dirs) {
+            dfs(board, i + dir[0], j + dir[1], p);
+        }
+        board[i][j] = c;
+    }
+}
