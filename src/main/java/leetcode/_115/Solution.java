@@ -2,26 +2,24 @@ package leetcode._115;
 
 class Solution {
     Integer dp[][];
+
     public int numDistinct(String s, String t) {
-        dp = new Integer[t.length()][s.length()];
-        return numDistinct(t, s, 0, 0);
+        dp = new Integer[s.length()][t.length()];
+        return numDistinct(s, t, 0, 0);
     }
 
-    int numDistinct(String t, String s, int i, int j) {
-        if(i == t.length()) {
+    int numDistinct(String s, String t, int i, int j) {
+        if (j == t.length()) {
             return 1;
         }
-        if(j == s.length()) {
+        if (i == s.length() || s.length() - i < t.length() - j) {
             return 0;
         }
-        if(dp[i][j] != null) {
+        if (dp[i][j] != null) {
             return dp[i][j];
         }
-        int cnt = 0;
-        if(t.charAt(i) == s.charAt(j)) {
-            cnt += numDistinct(t, s, i + 1, j + 1);
-        }
-        cnt += numDistinct(t, s, i, j + 1);
-        return dp[i][j] = cnt;
+        return dp[i][j] =
+                numDistinct(s, t, i + 1, j)
+                        + (s.charAt(i) == t.charAt(j) ? numDistinct(s, t, i + 1, j + 1) : 0);
     }
 }
