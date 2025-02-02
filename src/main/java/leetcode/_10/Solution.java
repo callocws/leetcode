@@ -93,8 +93,37 @@ class Solution1 {
         } else {
             return dp[i][j] =
                     isMatch(s, ps, i, j + 1)
-                            || (c == '.' || c == s.charAt(i))
-                                    && (isMatch(s, ps, i + 1, j) || isMatch(s, ps, i + 1, j + 1));
+                            || (c == '.' || c == s.charAt(i)) && isMatch(s, ps, i + 1, j);
+        }
+    }
+}
+
+class Solution2 {
+    Boolean dp[][] = new Boolean[21][21];
+
+    public boolean isMatch(String s, String p) {
+        return isMatch(s.toCharArray(), p.toCharArray(), s.length() - 1, p.length() - 1);
+    }
+
+    boolean isMatch(char[] s, char[] p, int i, int j) {
+        if (i < 0 && j < 0) {
+            return true;
+        }
+        if (j < 0) {
+            return false;
+        }
+        if (i < 0) {
+            return p[j] == '*' && isMatch(s, p, i, j - 2);
+        }
+        if (dp[i][j] != null) {
+            return dp[i][j];
+        }
+        if (p[j] == '*') {
+            return dp[i][j] =
+                    isMatch(s, p, i, j - 2)
+                            || (p[j - 1] == '.' || p[j - 1] == s[i]) && isMatch(s, p, i - 1, j);
+        } else {
+            return dp[i][j] = (p[j] == '.' || p[j] == s[i]) && isMatch(s, p, i - 1, j - 1);
         }
     }
 }
