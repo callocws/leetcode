@@ -35,3 +35,27 @@ class Solution {
         return sb.toString();
     }
 }
+
+class Solution1 {
+    public String simplifyPath(String path) {
+        String paths[] = path.split("/");
+        LinkedList<String> list = new LinkedList();
+        for (String s : paths) {
+            if (s.equals("..")) {
+                if (!list.isEmpty()) {
+                    list.removeLast();
+                }
+            } else if (!s.isEmpty() && !s.equals(".")) {
+                list.add(s);
+            }
+        }
+        if (list.isEmpty()) {
+            return "/";
+        }
+        StringBuilder sb = new StringBuilder();
+        for (String s : list) {
+            sb.append("/" + s);
+        }
+        return sb.toString();
+    }
+}
