@@ -31,3 +31,18 @@ class Solution {
         return list.get(0);
     }
 }
+
+class Solution1 {
+    public ListNode deleteDuplicates(ListNode head) {
+        ListNode dummy = new ListNode(0, head), p = dummy, q = head;
+        for (; p.next != null && p.next.next != null; ) {
+            if (p.next.val == p.next.next.val) {
+                int v = p.next.val;
+                for (; p.next != null && p.next.val == v; p.next = p.next.next) {}
+            } else {
+                p = p.next;
+            }
+        }
+        return dummy.next;
+    }
+}
