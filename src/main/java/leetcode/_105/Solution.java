@@ -1,6 +1,7 @@
 package leetcode._105;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import leetcode.TreeNode;
 
 class Solution {
@@ -75,5 +76,28 @@ class Solution2 {
         int[] preorder = {1, 2, 3};
         int[] inorder = {2, 3, 1};
         TreeNode.printTree(new Solution2().buildTree(preorder, inorder));
+    }
+}
+
+class Solution3 {
+    int preIndex;
+    HashMap<Integer, Integer> map = new HashMap();
+
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        for (int i = 0; i < inorder.length; i++) {
+            map.put(inorder[i], i);
+        }
+        return buildTree(preorder, inorder, 0, inorder.length - 1);
+    }
+
+    TreeNode buildTree(int[] preorder, int[] inorder, int i, int j) {
+        if (i > j) {
+            return null;
+        }
+        int inIndex = map.get(preorder[preIndex++]);
+        TreeNode root = new TreeNode(inorder[inIndex]);
+        root.left = buildTree(preorder, inorder, i, inIndex - 1);
+        root.right = buildTree(preorder, inorder, inIndex + 1, j);
+        return root;
     }
 }
