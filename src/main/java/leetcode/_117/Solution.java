@@ -44,3 +44,26 @@ class Solution {
         return root;
     }
 }
+
+class Solution1 {
+    ArrayList<Node> list = new ArrayList();
+
+    public Node connect(Node root) {
+        connect(root, 0);
+        return root;
+    }
+
+    void connect(Node root, int depth) {
+        if (root == null) {
+            return;
+        }
+        if (list.size() <= depth) {
+            list.add(root);
+        } else {
+            list.get(depth).next = root;
+            list.set(depth, root);
+        }
+        connect(root.left, depth + 1);
+        connect(root.right, depth + 1);
+    }
+}
