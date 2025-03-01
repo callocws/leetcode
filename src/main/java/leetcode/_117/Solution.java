@@ -67,3 +67,23 @@ class Solution1 {
         connect(root.right, depth + 1);
     }
 }
+
+class Solution2 {
+    public Node connect(Node root) {
+        Node previousHead = root, dummy = new Node(), q = dummy;
+        while (previousHead != null) {
+            for (Node p = previousHead; p != null; p = p.next) {
+                if (p.left != null) {
+                    q = q.next = p.left;
+                }
+                if (p.right != null) {
+                    q = q.next = p.right;
+                }
+            }
+            previousHead = dummy.next;
+            q = dummy;
+            q.next = null;
+        }
+        return root;
+    }
+}
