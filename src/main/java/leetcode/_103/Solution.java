@@ -56,3 +56,28 @@ class Solution {
         System.out.println(result);
     }
 }
+
+class Solution1 {
+    List<List<Integer>> result = new ArrayList<>();
+
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        traverse(root, 0);
+        return result;
+    }
+
+    void traverse(TreeNode root, int level) {
+        if (root == null) {
+            return;
+        }
+        if (result.size() == level) {
+            result.add(new LinkedList());
+        }
+        if (level % 2 == 0) {
+            result.get(level).add(root.val);
+        } else {
+            result.get(level).addFirst(root.val);
+        }
+        traverse(root.left, level + 1);
+        traverse(root.right, level + 1);
+    }
+}
