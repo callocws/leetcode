@@ -208,19 +208,16 @@ class Solution3_1 {
                 queue.add(i);
             }
         }
+        int visited = 0;
         for (; !queue.isEmpty(); ) {
             int index = queue.removeFirst();
+            visited++;
             for (int i : adj.get(index)) {
                 if (--degree[i] == 0) {
                     queue.add(i);
                 }
             }
         }
-        for (int i = 0; i < numCourses; i++) {
-            if (degree[i] != 0) {
-                return false;
-            }
-        }
-        return true;
+        return visited == numCourses;
     }
 }
