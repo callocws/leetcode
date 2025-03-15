@@ -1,8 +1,10 @@
 package leetcode._207;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 class Solution {
@@ -179,6 +181,43 @@ class Solution3 {
         }
         for (int i = 0; i < numCourses; i++) {
             if (m.get(i).degree != 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+class Solution3_1 {
+
+    ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
+    int degree[];
+
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        degree = new int[numCourses];
+        for (int i = 0; i < numCourses; i++) {
+            adj.add(new ArrayList());
+        }
+        for (int i = 0; i < prerequisites.length; i++) {
+            adj.get(prerequisites[i][1]).add(prerequisites[i][0]);
+            degree[prerequisites[i][0]]++;
+        }
+        List<Integer> queue = new LinkedList();
+        for (int i = 0; i < numCourses; i++) {
+            if (degree[i] == 0) {
+                queue.add(i);
+            }
+        }
+        for (; !queue.isEmpty(); ) {
+            int index = queue.removeFirst();
+            for (int i : adj.get(index)) {
+                if (--degree[i] == 0) {
+                    queue.add(i);
+                }
+            }
+        }
+        for (int i = 0; i < numCourses; i++) {
+            if (degree[i] != 0) {
                 return false;
             }
         }
