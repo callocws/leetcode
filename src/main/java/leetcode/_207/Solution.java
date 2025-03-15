@@ -1,4 +1,3 @@
-
 package leetcode._207;
 
 import java.util.HashMap;
@@ -8,38 +7,42 @@ import java.util.Set;
 
 class Solution {
     class Node {
-        int v;
-        Set<Node> s = new HashSet();
+        int value;
+        Set<Node> set = new HashSet();
+
         public Node(int v) {
-            this.v = v;
+            this.value = v;
         }
     }
+
     HashMap<Integer, Node> m = new HashMap();
+
     public boolean canFinish(int numCourses, int[][] prerequisites) {
-        for(int i = 0; i < numCourses; i++) {
+        for (int i = 0; i < numCourses; i++) {
             m.put(i, new Node(i));
         }
-        for(int i = 0; i < prerequisites.length; i++) {
+        for (int i = 0; i < prerequisites.length; i++) {
             Node a = m.get(prerequisites[i][0]), b = m.get(prerequisites[i][1]);
-            b.s.add(a);
-            if(check(b, b.s)) {
+            b.set.add(a);
+            if (checkCycle(b, b.set)) {
                 return false;
             }
         }
         return true;
     }
-    boolean check(Node p, Set<Node> s) {
-        if(s.isEmpty()) {
+
+    boolean checkCycle(Node p, Set<Node> set) {
+        if (set.isEmpty()) {
             return false;
         }
-        if(s.contains(p)) {
+        if (set.contains(p)) {
             return true;
         }
         Set<Node> ns = new HashSet();
-        for(Node n : s) {
-            ns.addAll(n.s);
+        for (Node node : set) {
+            ns.addAll(node.set);
         }
-        return check(p, ns);
+        return checkCycle(p, ns);
     }
 }
 
@@ -49,28 +52,32 @@ class Solution1 {
         int v;
         int visited;
         Set<Node> s = new HashSet();
+
         public Node(int v) {
             this.v = v;
         }
     }
+
     HashMap<Integer, Node> m = new HashMap();
+
     public boolean canFinish(int numCourses, int[][] prerequisites) {
-        for(int i = 0; i < numCourses; i++) {
+        for (int i = 0; i < numCourses; i++) {
             m.put(i, new Node(i));
         }
-        for(int i = 0; i < prerequisites.length; i++) {
+        for (int i = 0; i < prerequisites.length; i++) {
             Node a = m.get(prerequisites[i][0]), b = m.get(prerequisites[i][1]);
             b.s.add(a);
         }
-        for(int i = 0; i < numCourses; i++) {
+        for (int i = 0; i < numCourses; i++) {
             if (m.get(i).visited == 0 && checkCycle(m.get(i))) {
                 return false;
             }
         }
         return true;
     }
+
     boolean checkCycle(Node p) {
-        if(p.visited == 2 || p.s.isEmpty()) {
+        if (p.visited == 2 || p.s.isEmpty()) {
             return false;
         }
         if (p.visited == 1) {
@@ -78,7 +85,7 @@ class Solution1 {
         }
         p.visited = 1;
         boolean b = false;
-        for(Node n : p.s) {
+        for (Node n : p.s) {
             b |= checkCycle(n);
         }
         p.visited = 2;
@@ -88,84 +95,90 @@ class Solution1 {
 
 class Solution2 {
     class Node {
-        int v;
+        int value;
         boolean visited;
-        Set<Node> s = new HashSet();
-        public Node(int v) {
-            this.v = v;
+        Set<Node> set = new HashSet();
+
+        public Node(int value) {
+            this.value = value;
         }
     }
+
     HashMap<Integer, Node> m = new HashMap();
+
     public boolean canFinish(int numCourses, int[][] prerequisites) {
-        for(int i = 0; i < numCourses; i++) {
+        for (int i = 0; i < numCourses; i++) {
             m.put(i, new Node(i));
         }
-        for(int i = 0; i < prerequisites.length; i++) {
+        for (int i = 0; i < prerequisites.length; i++) {
             Node a = m.get(prerequisites[i][0]), b = m.get(prerequisites[i][1]);
-            b.s.add(a);
+            b.set.add(a);
         }
-        for(int i = 0; i < numCourses; i++) {
+        for (int i = 0; i < numCourses; i++) {
             if (!m.get(i).visited && checkCycle(m.get(i))) {
                 return false;
             }
         }
         return true;
     }
+
     boolean checkCycle(Node p) {
-        if(p.s.isEmpty()) {
+        if (p.set.isEmpty()) {
             return false;
         }
         if (p.visited) {
             return true;
         }
         p.visited = true;
-        for(Node n : p.s) {
-            if(checkCycle(n)) {
+        for (Node n : p.set) {
+            if (checkCycle(n)) {
                 return true;
             }
         }
-        p.s = Set.of();
+        p.set = Set.of(); // mark as visited
         return false;
     }
 }
 
-
 // topological sort
 class Solution3 {
     class Node {
-        int v;
-        int d;
-        Set<Node> s = new HashSet();
-        public Node(int v) {
-            this.v = v;
+        int value;
+        int degree;
+        Set<Node> set = new HashSet();
+
+        public Node(int value) {
+            this.value = value;
         }
     }
+
     HashMap<Integer, Node> m = new HashMap();
+
     public boolean canFinish(int numCourses, int[][] prerequisites) {
-        for(int i = 0; i < numCourses; i++) {
+        for (int i = 0; i < numCourses; i++) {
             m.put(i, new Node(i));
         }
-        for(int i = 0; i < prerequisites.length; i++) {
+        for (int i = 0; i < prerequisites.length; i++) {
             Node a = m.get(prerequisites[i][0]), b = m.get(prerequisites[i][1]);
-            b.s.add(a);
-            a.d++;
+            b.set.add(a);
+            a.degree++;
         }
         LinkedList<Node> l = new LinkedList();
-        for(int i = 0; i < numCourses; i++) {
-            if(m.get(i).d == 0) {
+        for (int i = 0; i < numCourses; i++) {
+            if (m.get(i).degree == 0) {
                 l.add(m.get(i));
             }
         }
-        for(;!l.isEmpty();) {
+        for (; !l.isEmpty(); ) {
             Node p = l.pop();
-            for(Node n : p.s) {
-                if(--n.d == 0) {
+            for (Node n : p.set) {
+                if (--n.degree == 0) {
                     l.add(n);
                 }
             }
         }
-        for(int i = 0; i < numCourses; i++) {
-            if(m.get(i).d != 0) {
+        for (int i = 0; i < numCourses; i++) {
+            if (m.get(i).degree != 0) {
                 return false;
             }
         }
