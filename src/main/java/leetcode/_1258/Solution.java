@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 // sth wrong with this solution, the latter set may be in the same group with the previous set
 class Solution {
@@ -62,7 +64,7 @@ class Solution {
 class Solution1 {
     ArrayList<String> result = new ArrayList();
     HashMap<String, String> map = new HashMap();
-    HashMap<String, HashSet<String>> mapSet = new HashMap();
+    HashMap<String, Set<String>> mapSet = new HashMap();
 
     public List<String> generateSentences(List<List<String>> synonyms, String text) {
         for (List<String> strs : synonyms) {
@@ -74,11 +76,10 @@ class Solution1 {
             union(strs.get(0), strs.get(1));
         }
         for (String str : map.keySet()) {
-            mapSet.computeIfAbsent(find(str), k -> new HashSet<>()).add(str);
+            mapSet.computeIfAbsent(find(str), k -> new TreeSet<>()).add(str);
         }
 
         generateSentences(0, text.split(" "));
-        result.sort(null);
         return result;
     }
 
