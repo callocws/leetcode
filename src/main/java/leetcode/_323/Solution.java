@@ -44,7 +44,7 @@ class Solution1 {
             A[i] = i;
         }
         for (int[] e : edges) {
-            merge(A, e[0], e[1]);
+            union(A, e[0], e[1]);
         }
         for (int i = 0; i < n; i++) {
             s.add(find(A, i));
@@ -59,7 +59,7 @@ class Solution1 {
         return A[i];
     }
 
-    void merge(int[] A, int i, int j) {
+    void union(int[] A, int i, int j) {
         A[find(A, i)] = find(A, j);
     }
 }
