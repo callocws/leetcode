@@ -35,52 +35,39 @@ public class Solution {
             return false;
         }
 
+        boolean flag = false;
         if (pair) {
             if (digits[i] == 0) {
                 return isValid(digits, i + 1, true);
             }
 
-            if (digits[i] >= 3) {
-                digits[i] -= 3;
-                try {
-                    if (isValid(digits, i, true)) {
-                        return true;
-                    }
-                } finally {
-                    digits[i] += 3;
-                }
+            digits[i] -= 3;
+            flag = isValid(digits, i, true);
+            digits[i] += 3;
+            if (flag) {
+                return true;
             }
 
             if (i + 2 >= digits.length) {
                 return false;
             }
+            digits[i]--;
+            digits[i + 1]--;
+            digits[i + 2]--;
+            flag = isValid(digits, i, true);
+            digits[i]++;
+            digits[i + 1]++;
+            digits[i + 2]++;
 
-            try {
-                digits[i]--;
-                digits[i + 1]--;
-                digits[i + 2]--;
-                if (isValid(digits, i, true)) {
-                    return true;
-                }
-            } finally {
-                digits[i]++;
-                digits[i + 1]++;
-                digits[i + 2]++;
-            }
-
-            return false;
+            return flag;
         }
 
         for (int j = i; j < digits.length; j++) {
-            if (digits[j] >= 2) {
-                try {
-                    digits[j] -= 2;
-                    if (isValid(digits, 0, true)) {
-                        return true;
-                    }
-                } finally {
-                    digits[j] += 2;
-                }
+            digits[j] -= 2;
+            flag = isValid(digits, 0, true);
+            digits[j] += 2;
+            if (flag) {
+                return true;
             }
         }
         return false;
