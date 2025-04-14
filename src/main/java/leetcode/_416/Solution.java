@@ -1,11 +1,14 @@
 package leetcode._416;
 
 class Solution {
+    Boolean dp[][];
+
     public boolean canPartition(int[] nums) {
         int s = 0;
         for (int i = 0; i < nums.length; i++) {
             s += nums[i];
         }
+        dp = new Boolean[nums.length + 1][s];
         return s % 2 == 0 && canPartition(0, s / 2, nums);
     }
 
@@ -16,7 +19,41 @@ class Solution {
         if (i >= nums.length || target < 0) {
             return false;
         }
-        return canPartition(i + 1, target, nums) || canPartition(i + 1, target - nums[i], nums);
+        if (dp[i][target] != null) {
+            return dp[i][target];
+        }
+        return dp[i][target] =
+                canPartition(i + 1, target, nums) || canPartition(i + 1, target - nums[i], nums);
+    }
+
+    void printPartition(int i, int target, int[] nums) {
+        if (i >= nums.length || target < 0) {
+            return;
+        }
+
+        if (canPartition(i + 1, target, nums)) {
+            printPartition(i + 1, target, nums);
+        } else {
+            System.out.print(nums[i] + ",");
+            printPartition(i + 1, target - nums[i], nums);
+        }
+    }
+
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+
+        // 示例输入
+        int[] nums = {1, 5, 11, 5};
+
+        // 检查是否可以分区
+        boolean canPartition = solution.canPartition(nums);
+        System.out.println("是否可以分区: " + canPartition);
+
+        // 如果可以分区，打印分区路径
+        if (canPartition) {
+            System.out.print("分区路径: ");
+            solution.printPartition(0, solution.dp[0].length / 2, nums);
+        }
     }
 }
 
