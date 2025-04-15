@@ -30,4 +30,41 @@ class Solution {
                 Math.max(
                         longestPalindromeSubseq(s, i - 1, j), longestPalindromeSubseq(s, i, j + 1));
     }
+
+    String result = "";
+
+    void printLongestPalindromeSubseq(String s, int i, int j) {
+        if (i < 0 || j >= s.length()) {
+            return;
+        }
+        if (s.charAt(i) == s.charAt(j)) {
+            if (i == j) {
+                result = s.substring(i, j + 1);
+            } else {
+                result = s.charAt(i) + result + s.charAt(j);
+            }
+            printLongestPalindromeSubseq(s, i - 1, j + 1);
+            return;
+        }
+        if (longestPalindromeSubseq(s, i - 1, j) > longestPalindromeSubseq(s, i, j + 1)) {
+            printLongestPalindromeSubseq(s, i - 1, j);
+        } else {
+            printLongestPalindromeSubseq(s, i, j + 1);
+        }
+    }
+
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        String s = "gbbebabeghh";
+        System.out.println(solution.longestPalindromeSubseq(s));
+        for (int i = 0; i < s.length(); i++) {
+            for (int j = 0; j < s.length(); j++) {
+                if (solution.longestPalindromeSubseq(s, i, j) == solution.max) {
+                    solution.printLongestPalindromeSubseq(s, i, j);
+                    System.out.println(solution.result);
+                    return;
+                }
+            }
+        }
+    }
 }
