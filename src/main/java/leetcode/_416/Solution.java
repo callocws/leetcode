@@ -42,14 +42,11 @@ class Solution {
     public static void main(String[] args) {
         Solution solution = new Solution();
 
-        // 示例输入
         int[] nums = {1, 5, 11, 5};
 
-        // 检查是否可以分区
         boolean canPartition = solution.canPartition(nums);
         System.out.println("是否可以分区: " + canPartition);
 
-        // 如果可以分区，打印分区路径
         if (canPartition) {
             System.out.print("分区路径: ");
             solution.printPartition(0, solution.dp[0].length / 2, nums);

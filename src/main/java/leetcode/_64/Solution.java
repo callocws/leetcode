@@ -38,18 +38,15 @@ class Solution {
     public static void main(String[] args) {
         Solution solution = new Solution();
 
-        // 示例输入
         int[][] grid = {
             {1, 3, 1},
             {1, 5, 1},
             {4, 2, 1}
         };
 
-        // 计算最小路径和并初始化 dp 表
         int minSum = solution.minPathSum(grid);
         System.out.println("最小路径和: " + minSum);
 
-        // 打印最小路径
         System.out.println("最小路径:");
         solution.printPathSum(grid, 0, 0);
     }
